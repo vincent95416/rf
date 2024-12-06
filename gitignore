@@ -1,5 +1,7 @@
-/.venv/
-/.idea/
+.venv/
+.idea/
+*.pyc
+__pycache__/
 /browser/
 log.html
 output.xml

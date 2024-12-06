@@ -1,11 +1,6 @@
 *** Settings ***
 Resource    ./task.robot
-Suite Setup    Refresh Url
-
-*** Keywords ***
-Refresh url
-    New Browser    chromium    headless=False    slowMo=1
-    New Page    ${main_url}&uid=${uid}&title=robot_page&em=Edit
+Suite Setup    Edit Url
 
 *** Test Cases ***
 新增widget
