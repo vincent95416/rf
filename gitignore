@@ -2,7 +2,7 @@
 .idea/
 *.pyc
 __pycache__/
-/browser/
+.gitbrowser/
 log.html
 output.xml
 playwright-log.txt

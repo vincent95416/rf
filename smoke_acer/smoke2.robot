@@ -109,7 +109,7 @@ widget編輯模式
 #    Click With Options    id=eventPop_iframe >>> id=widget_btn    delay=300ms
 #    Hover    id=menu_aside
 #    Wait For Element And Click It    id=event_list
-#    Wait For Elements State    id=next_page_url    visible
+#    Wait For Elements State    id=next_page_url >>> css=body    visible
 #    Get Text    id=next_page_url >>> xpath=/html/body/main/div[2]/ul/li[1]/div[1]/div[2]/div[1]/div[2]/span[2]    ==    未處理
 #    Get Text    id=next_page_url >>> xpath=/html/body/main/div[2]/ul/li[1]/div[1]/div[2]/div[2]/span[4]    ==    ${text}
 #    Click With Options    id=next_page_url >>> .ev-link    delay=100ms

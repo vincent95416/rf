@@ -20,7 +20,7 @@ widget編輯模式
     #Click With Options    id=XL_cardType_widgets    force=True
     #現在onclick事件有bug,無法選中XL的平面圖widget,因此改執行下兩行程式碼
     Click With Options    xpath=/html/body/div[3]/div[2]/div[1]/div/div/div[1]/p[2]    delay=200ms
-    Get Attribute    id=Map_L_div    class    widget-group widget-donut widget-selected
+    Get Attribute    id=Map_L_div    class    ==    widget-group widget-donut widget-selected
     Sleep    2s
     Click With Options    id=set_btn    delay=300ms
     Fill Text    id=title    大平面圖

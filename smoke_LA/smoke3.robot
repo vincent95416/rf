@@ -9,7 +9,8 @@ Suite Setup    Edit Url
     Click With Options    id=next_page_url >>> //p[@class='mb-0 d-inline-block text-truncate' and text()='robot1']    clickCount=2
     Wait For Element And Click It    id=next_page_url >>> id=btn_add_widget
     Wait For Element And Click It    id=平面圖_btn
-    Click With Options    id=XL_cardType_widgets    force=True
+    Click With Options    id=L_cardType_widgets    force=True
+    Get Attribute    id=Map_L_div    class    ==    widget-group widget-donut widget-selected
     Sleep    2s
     Click With Options    id=set_btn    delay=300ms
     Fill Text    id=title    大平面圖

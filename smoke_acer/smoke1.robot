@@ -47,7 +47,8 @@ widget編輯模式
     Sleep    1s
     Wait For Element And Click It    id=iframe_device >>> id=Del_page_Btn
     # alert 會被自動處理
-    Wait For Elements State    id=next_page_url    visible
+    Wait For Elements State    id=next_page_url >>> css=body    visible
+    Wait For Elements State    id=next_page_url >>> //p[@class='mb-0 d-inline-block text-truncate' and text()='Lestrade']    detached
 
 新增頁面
     [Tags]    page

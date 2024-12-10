@@ -109,6 +109,7 @@ Suite Setup    Edit Url
 
 刪除widget
     [Tags]    widget
+    Go To    ${main_url}&uid=${uid}&title=robot_page&em=Edit
     Click With Options    id=next_page_url >>> css=button.icon.icon-three-dots.icon-40[onclick='widgetEdit(event)']    delay=200ms
     Click With Options    id=next_page_url >>> .delete    delay=200ms
     Wait For Elements State    id=next_page_url >>> .modal-content    visible

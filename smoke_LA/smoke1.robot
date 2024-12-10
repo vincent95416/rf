@@ -46,3 +46,4 @@ Suite Setup    Add Url
     Wait For Element And Click It    id=iframe_device >>> id=Del_page_Btn
     # alert 會被自動處理
     Wait For Elements State    id=next_page_url >>> css=body    visible
+    Wait For Elements State    id=next_page_url >>> //p[@class='mb-0 d-inline-block text-truncate' and text()='Lestrade']    detached
