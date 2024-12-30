@@ -284,7 +284,6 @@ widget power bar
     Select Options By    id=data_search_type    label    天
     Sleep    1s
     Click With Options    id=old_save_Btn    delay=100ms
-    Sleep    3s
     Get Text    id=status_msg_content    ==    已新增
     Sleep    3s
     ${value}    Get Text    id=next_page_url >>> .chart-value
@@ -313,7 +312,6 @@ widget env area
     Select Options By    id=data_search_type    label    月
     Sleep    1s
     Click With Options    id=old_save_Btn    delay=100ms
-    Sleep    3s
     Get Text    id=status_msg_content    ==    已新增
     Sleep    3s
     Scroll To Element    id=next_page_url >>> css=span[databind="Orange-VTE-9999NODEVTP-0001_dashboard_env_area"]
@@ -358,7 +356,6 @@ widget people line
     Select Options By    id=data_search_type    label    年
     Sleep    1s
     Click With Options    id=old_save_Btn    delay=100ms
-    Sleep    3s
     Get Text    id=status_msg_content    ==    已新增
     Sleep    3s
     Scroll To Element    id=next_page_url >>> css=span[databind="Orange-VTE-9999NODEVTP-0001_dashboard_people_line"]
@@ -381,7 +378,6 @@ widget water donut
     Select Options By    id=data_node_1_nodes    value    ${node_id}
     Sleep    1s
     Click With Options    id=old_save_Btn    delay=100ms
-    Sleep    3s
     Get Text    id=status_msg_content    ==    已新增
     Sleep    3s
     Scroll To Element    id=next_page_url >>> .chart-value.donut
@@ -403,7 +399,6 @@ widget kanban
     Select Options By    id=data_node_nodes    value    ${node_id}
     Sleep    1s
     Click With Options    id=old_save_Btn    delay=100ms
-    Sleep    3s
     Get Text    id=status_msg_content    ==    已新增
     Sleep    3s
     Scroll To Element    id=next_page_url >>> .dashboard-value
@@ -425,7 +420,6 @@ widget report
     Select Options By    id=data_node_nodes    value    ${node_id}
     Sleep    1s
     Click With Options    id=old_save_Btn    delay=100ms
-    Sleep    3s
     Get Text    id=status_msg_content    ==    已新增
     Sleep    3s
     Wait For Elements State    id=next_page_url >>> .wrapper    visible
@@ -461,7 +455,6 @@ widget airConditioner
     Select Options By    id=data_node_nodes    value    ${node_id}
     Sleep    1s
     Click With Options    id=old_save_Btn    delay=100ms
-    Sleep    3s
     Get Text    id=status_msg_content    ==    已新增
     Sleep    3s
     Wait For Elements State    id=next_page_url >>> .wrapper    visible
@@ -626,7 +619,7 @@ widget airConditioner
     Click With Options    //button[@onclick='save_signage()']    delay=100ms
     Wait For Elements State    id=status_msg_content    visible
     Get Text    id=status_msg_content    ==    已儲存
-    Wait For Elements State    id=next_page_url >>> .wrapper    visible
+    Wait For Elements State    id=next_page_url    visible
     Click With Options    id=next_page_url >>> xpath=/html/body/div[2]/div[2]/div[last()]/div/div[2]    delay=100ms
     Wait For Elements State    id=next_page_url >>> .edit-menu:not(.d-none)    visible
     Click With Options    id=next_page_url >>> //div[@class='edit-menu' and not(contains(@class, 'd-none'))]//p[@class='c-danger' and text()='刪除投影']    delay=100ms
@@ -684,7 +677,7 @@ widget airConditioner
     #歷史資料下載
     Click With Options    id=next_page_url >>> id=sava_report_btn    delay=100ms
     Get Text    id=status_msg_content    ==    完成
-    Wait For Elements State    id=next_page_url >>> .wrapper    visible
+    Wait For Elements State    id=next_page_url    visible
     Click With Options    id=next_page_url >>> id=Button1    delay=100ms
     Wait For Elements State    id=raw_iframe    visible
     Select Options By    id=raw_iframe >>> id=devs_list    value    ${org}-VTE-9999
@@ -774,7 +767,7 @@ widget airConditioner
     Wait For Elements State    id=next_page_url    visible
     Hover    css=body
     Click With Options    id=next_page_url >>> xpath=/html/body/div/div[2]/ul/li[2]    delay=100ms
-    Wait For Elements State    id=next_page_url >>> .wrapper    visible
+    Wait For Elements State    id=next_page_url    visible
     Wait For Elements State    id=next_page_url >>> .table.table-hover    stable
     Click With Options    id=next_page_url >>> xpath=/html/body/div/div[2]/section[2]/div[2]/div/table/tbody/tr[last()]/td[4]/div/button[2]    delay=500ms
     Wait For Elements State    id=next_page_url >>> .modal.fade.show    visible
@@ -833,7 +826,7 @@ widget airConditioner
     Fill Text    id=account    robot_admin1
     Fill Text    id=password    1
     Click    id=loginBtn
-    Wait For Elements State    id=next_page_url >>> .wrapper    visible
+    Wait For Elements State    id=next_page_url    visible
     Hover    id=menu_aside
     Wait For Element And Click It    id=Setting_Btn
 
@@ -845,6 +838,6 @@ widget airConditioner
     Fill Text    id=password    2
     Sleep    1s
     Click    id=loginBtn
-    Wait For Elements State    id=next_page_url >>> .wrapper    visible
+    Wait For Elements State    id=next_page_url    visible
     Hover    id=menu_aside
     Wait For Elements State    id=Setting_Btn    hidden
