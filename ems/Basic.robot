@@ -785,7 +785,7 @@ widget airConditioner
     Reload
     Hover    id=menu_aside
     Wait For Element And Click It    id=Setting_Btn
-    Wait For Elements State    id=next_page_url >>> .wrapper    visible
+    Wait For Elements State    id=next_page_url >>> .account-container    visible
     Click With Options    id=next_page_url >>> .btn.btn-blue.fill-white.f-14-600    delay=100ms
     Fill Text    id=next_page_url >>> id=account    robot_admin1
     Fill Text    id=next_page_url >>> id=name    robot_name1

@@ -24,7 +24,7 @@ Suite Teardown
     Fill Text    id=password    ${pw}
     Click    id=loginBtn
 
-建立管理者
+建立管理者，後續驗證並刪除
     Hover    id=menu_aside
     Wait For Element And Click It    id=Setting_Btn
     Wait For Elements State    id=next_page_url >>> .account-container    visible
@@ -55,8 +55,14 @@ Suite Teardown
     ${access}    Get Text    id=next_page_url >>> xpath=//table/tbody[last()]/tr/td[8]
     Should Be Equal    ${access}    否
     
-    ${spans}=    Get Elements    id=next_page_url >>> xpath=//table/tbody[2]/tr/td[9]/span
+    ${spans}=    Get Elements    id=next_page_url >>> xpath=//table/tbody[last()]/tr/td[9]/span
     ${span_count}=    Get Length    ${spans}
     Should Be Equal As Numbers    ${span_count}    1
     ${span_text}    Get Text    ${spans}[0]
     Should Be Equal    ${span_text}    QA
+
+    Click With Options    id=next_page_url >>> xpath=//table/tbody[last()]/tr/td[10]/div/button[2]    delay=500ms
+    Wait For Elements State    id=next_page_url >>> .modal fade show    visible
+    ${text}    Get Text    /html/body/div[1]/div[3]/div/div/div[2]/p/span
+    Should Contain    ${text}    robot_g
+    Click With Options    id=next_page_url >>> xpath=/html/body/div[1]/div[3]/div/div/div[2]/div/button[1]    delay=500ms
