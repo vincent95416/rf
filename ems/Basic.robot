@@ -618,7 +618,7 @@ widget airConditioner
     Fill Text    id=add_signage_title    robotProjector
     Click With Options    id=sigAdd_submit    delay=100ms
     Get Text    id=status_msg_content    ==    已新增
-    Wait For Elements State    id=next_page_url >>> .wrapper    visible
+    Wait For Elements State    id=next_page_url    visible
     Sleep    3s
     Click With Options    id=next_page_url >>> text="robotProjector"    delay=100ms    clickCount=2    force=True
     Wait For Elements State    .signage-edit-body    visible
@@ -640,7 +640,7 @@ widget airConditioner
     Wait For Element And Click It    id=report_list
     Wait For Elements State    id=next_page_url >>> css=body    visible
     Click With Options    id=next_page_url >>> id=add_widget_div
-    Wait For Elements State    id=next_page_url >>> .wrapper    visible
+    Wait For Elements State    id=next_page_url    visible
     Fill Text    id=next_page_url >>> id=devReport_Title_txt    robot_repo
     Click With Options    id=next_page_url >>> id=sava_report_btn    delay=100ms
     Get Text    id=status_msg_content    ==    完成
@@ -707,7 +707,7 @@ widget airConditioner
     Wait For Elements State    id=next_page_url >>> .wrapper    visible
     Hover    id=menu_aside
     Wait For Element And Click It    id=Setting_Btn
-    Wait For Elements State    id=next_page_url >>> .wrapper    visible
+    Wait For Elements State    id=next_page_url    visible
     Wait For Element And Click It    id=next_page_url >>> a[href="#/devices"]
     Click With Options    id=next_page_url >>> .btn.btn-blue.fill-white.f-14-600    delay=100ms
     Get Attribute    id=next_page_url >>> id=deviceVirtualCreateOffcanvas    class    ==    offcanvas offcanvas-end show
@@ -771,7 +771,7 @@ widget airConditioner
     Wait For Elements State    .wrapper    visible
     Hover    id=menu_aside
     Wait For Element And Click It    id=Setting_Btn
-    Wait For Elements State    id=next_page_url >>> .wrapper    visible
+    Wait For Elements State    id=next_page_url    visible
     Hover    css=body
     Click With Options    id=next_page_url >>> xpath=/html/body/div/div[2]/ul/li[2]    delay=100ms
     Wait For Elements State    id=next_page_url >>> .wrapper    visible
@@ -804,7 +804,7 @@ widget airConditioner
     Fill Text    id=next_page_url >>> id=passwordChcek    1
     Click    id=next_page_url >>> xpath=/html/body/div/div[8]/div[4]/button[2]
     Sleep    1s
-    Wait For Elements State    id=next_page_url >>> .wrapper    visible
+    Wait For Elements State    id=next_page_url    visible
     Get Text    id=next_page_url >>> xpath=/html/body/div/div[4]/div/div/p    ==    已建立
 
     Click With Options    id=next_page_url >>> .btn.btn-blue.fill-white.f-14-600    delay=100ms
