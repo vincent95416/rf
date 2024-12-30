@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 
 def exe_output():
     # 這裡替換成你的 webhook URL
-    webhook_url = 'https://hooks.slack.com/services/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'
+    webhook_url = 'https://hooks.slack.com/services/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'
 
     # 設定 output.xml 的路徑
     output_file_path = '../robot_results/output.xml'
