@@ -28,7 +28,7 @@ elif ENV == "ACER":
     acc = "admin"
     pw = "P@ssw0rd"
     init_label = "13-1"
-    device1 = "TYTTEEST"
+    device1 = "0CFE5DEF6376"    #widget設定用
     device2 = "_devGroup1-VTE-0047"
 elif ENV == "LA":
     url = "http://192.168.11.88/ihouseBA/"

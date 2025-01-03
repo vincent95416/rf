@@ -6,7 +6,7 @@ Suite Setup    Continuous page
 widget編輯模式
     [Documentation]    打開widget編輯模式,以利後續測試
     Wait For Load State    load    30s
-    Wait For Elements State    css=body    visible
+    Wait For Elements State    .wrapper    visible
     Wait For Element And Click It    id=next_page_url >>> id=btn_show_widget
     Wait For Elements State    id=next_page_url >>> css=body    visible    15s
 
@@ -14,7 +14,7 @@ widget編輯模式
     [Tags]    label
     Wait For Elements State    id=next_page_url >>> css=body    visible    15s
     Hover    id=menu_aside
-    Wait For Element And Click It    //p[contains(text(), '測試')]
+    Wait For Element And Click It    //p[@class="nav_page_text" and text()="測試"]
     Wait For Element And Click It    id=next_page_url >>> //span[@data-i18n='index.button.add_page_tag' and text()='新增頁籤']
     Wait For Elements State    id=iframe_device >>> css=body    visible
     Fill Text    id=iframe_device >>> input[id=page_txt]    robot1
@@ -37,7 +37,7 @@ widget編輯模式
 編輯,刪除標籤
     [Documentation]    label
     Handle Future Dialogs    accept
-    Wait For Elements State    id=next_page_url    visible
+    Wait For Elements State    .wrapper    visible
     Click With Options    id=next_page_url >>> xpath=/html/body/div[1]/div/div/div[1]/div[2]/div[1]/div    delay=500ms    force=True
     Sleep    1s
     Fill Text    id=iframe_device >>> input[id=page_txt]    Lestrade
@@ -70,7 +70,7 @@ widget編輯模式
 
 刪除頁面
     [Tags]    page
-    Wait For Elements State    css=body    visible    15s
+    Wait For Elements State    .wrapper    visible    15s
     Hover    id=menu_aside
     Wait For Element And Click It    id=Setting_Btn
     Wait For Elements State    id=next_page_url >>> css=body    visible
@@ -81,6 +81,6 @@ widget編輯模式
     Click With Options    id=next_page_url >>> xpath=/html/body/div/div[2]/section[2]/div[2]/div/table/tbody/tr[last()]/td[4]/div/button[2]    delay=500ms
     Wait For Elements State    id=next_page_url >>> .modal.fade.show    visible
     Click With Options    id=next_page_url >>> xpath=/html/body/div[1]/div[4]/div/div/div[2]/div/button[1]
-    Wait For Elements State    css=body    visible    15s
+    Wait For Elements State    .wrapper    visible    15s
     ${page}    Get Text    id=next_page_url >>> /html/body/div/div[2]/section[2]/div[2]/div/table/tbody/tr[last()]/td[1]/div/p
     Should Not Be Equal    ${page}    robot

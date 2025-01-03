@@ -6,7 +6,7 @@ Suite Setup    Continuous page
 widget編輯模式
     [Documentation]    打開widget編輯模式,以利後續測試
     Wait For Load State    load    30
-    Wait For Elements State    css=body    visible
+    Wait For Elements State    .wrapper    visible
     Wait For Element And Click It    id=next_page_url >>> id=btn_show_widget
     Wait For Elements State    id=next_page_url >>> css=body    visible    15s
 
@@ -14,14 +14,16 @@ widget編輯模式
     [Tags]    widget
     Wait For Elements State    id=next_page_url >>> css=body    visible    15s
     Hover    id=menu_aside
-    Wait For Element And Click It    //p[contains(text(), '測試')]
+    Wait For Element And Click It    //p[@class="nav_page_text" and text()="測試"]
     Click With Options    id=next_page_url >>> //p[@class='mb-0 d-inline-block text-truncate' and text()='${init_label}']    clickCount=2
     Wait For Element And Click It    id=next_page_url >>> id=btn_add_widget
     Wait For Elements State    id=btn_area    visible    15s
     Wait For Element And Click It    id=儀表板_btn
     Click With Options    id=dashboard_battery_div    force=True
-    Get Attribute    id=dashboard_battery_div    class    widget-group widget-selected
     Sleep    1s
+    #Get Attribute    id=dashboard_battery_div    class    widget-group widget-selected
+    ${attribute_value}    Get Attribute    id=dashboard_battery_div    class
+    Should Be Equal       ${attribute_value}    widget-group widget-selected
     Click With Options    id=set_btn    delay=300ms
     Fill Text    id=title    大電池
     Fill Text    id=s_title    小電池
