@@ -17,6 +17,7 @@ Suite Teardown
 登入
     [Tags]    high_priority
     [Documentation]    輸入組織ID,帳號密碼並登入
+    Wait For Load State    networkidle    timeout=30s
     Wait For Elements State    id=org_number    visible
     Fill Text    id=org_number    ${org}
     Fill Text    id=account    ${acc}
@@ -27,19 +28,19 @@ Suite Teardown
     [Tags]    high_priority
     [Documentation]    打開widget編輯模式,以利後續測試
     Set Browser Timeout    10s
-    Wait For Elements State    id=next_page_url    visible
+    Wait For Elements State    .wrapper    visible
     Click   id=next_page_url >>> id=btn_show_widget
     Wait For Elements State    id=next_page_url >>> id=add_page_btn    visible
     Hover    id=menu_aside
     Wait For Element And Click It    //p[@class='nav_page_text' and text()='QA']
-    Wait For Elements State    id=next_page_url    visible
+    Wait For Elements State    .wrapper    visible
     Wait For Element And Click It    id=next_page_url >>> //span[@data-i18n='index.button.add_page_tag' and text()='新增頁籤']
     Wait For Elements State    id=iframe_device    visible
     Fill Text    id=iframe_device >>> input[id=page_txt]    平面圖A_A
     Sleep    1s
     Click With Options    id=iframe_device >>> id=page_edit_submit    delay=100ms
     Sleep    1s
-    Wait For Elements State    id=next_page_url    visible
+    Wait For Elements State    .wrapper    visible
 
 新增平面圖
     [Documentation]    建立平面圖
@@ -86,7 +87,7 @@ Suite Teardown
 
 編輯平面圖
     [Documentation]    編輯平面圖
-    Wait For Elements State    id=next_page_url >>> .wrapper    visible
+    Wait For Elements State    .wrapper    visible
     Scroll To Element    id=next_page_url >>> xpath=/html/body/div[1]/div/div/div[2]/div[1]/div[1]/div[2]/button
     Click With Options    id=next_page_url >>> xpath=/html/body/div[1]/div/div/div[2]/div[1]/div[1]/div[2]/button    delay=100ms
     Click    id=next_page_url >>> xpath=//span[@data-i18n='widget.edit.map']
@@ -123,3 +124,14 @@ Suite Teardown
     Click With Options    id=iframe_map >>> id=Save_Btn    delay=100ms
     Get Text    id=status_msg_content    ==    已儲存
     Sleep    3s
+
+刪除標籤
+    Handle Future Dialogs    accept
+    Wait For Elements State    .wrapper    visible
+    Click With Options    id=next_page_url >>> xpath=/html/body/div[1]/div/div/div[1]/div[2]/div[last()]    delay=500ms    clickCount=2
+    Sleep    1s
+    Click With Options    id=next_page_url >>> xpath=/html/body/div[1]/div/div/div[1]/div[2]/div[last()]/div    delay=500ms    force=True
+    Sleep    1s
+    Wait For Element And Click It    id=iframe_device >>> id=Del_page_Btn
+    # alert 會被自動處理
+    Wait For Elements State    .wrapper    visible
