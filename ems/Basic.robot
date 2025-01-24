@@ -576,14 +576,12 @@ widget airConditioner
     Sleep    3s
     #Should Contain    ${text}    無保請回
     #檢查告警內容是否包含預期文字,否則點下一頁找尋,最多五次
-    ${page}    Set Variable    0
     FOR    ${index}    IN RANGE    6
         ${text}    Get Text    id=eventPop_iframe >>> id=event_alarm_msg
         ${result}    Run Keyword And Ignore Error    Should Contain    ${text}    無保請回
         Run Keyword If    '${result[0]}' == 'PASS'    Exit For Loop
         Run Keyword If    '${result[0]}' == 'FAIL'    Click    id=eventPop_iframe >>> .icon.icon-event-pop-after.icon-28
         Run Keyword If    '${result[0]}' == 'FAIL'    Sleep    1s
-        Run Keyword If    '${result[0]}' == 'FAIL'    Set Variable    ${page}    ${page} + 1
     END
     Sleep    1s
     Click With Options    id=eventPop_iframe >>> id=widget_btn    delay=300ms
