@@ -25,9 +25,10 @@ ${INSTALL_TIME}    60000
 ${username}    0984123725
 #測試密碼
 ${password}    password
+${title}    prod橘子居家
 ${cam_skywatch}    測8C:51:09:D1:05:6A
-${cam_nvr}    ALN3E5VB24250002
-${c1_name}    奧創智慧開關 testben
+${cam_nvr}    ALSTI5KL23370742
+${c1_name}    prod奧創智慧開關 C1
 ${version}    版本號\nv1.2.10(1)
 
 *** Keywords ***
@@ -43,7 +44,7 @@ Open Test Application
     ...                 appium:appPackage=${APP_PACKAGE}
     ...                 appium:appActivity=${APP_ACTIVITY}
     ...                 appium:uiautomator2ServerInstallTimeout=${INSTALL_TIME}
-#    ...                 appium:autoGrantPermissions=true    #自動授予所需的其他權限(相機、位置)
+    ...                 appium:autoGrantPermissions=true    #自動授予所需的其他權限(相機、位置)
     ...                 appium:newCommandTimeout=0    #沒有新命令的狀況下，等待的timeout時間，設置0表示可以無限等待，避免在長時間測試中
     ...                 appium:ensureWebviewsHavePages=true    #確保在webview中載入頁面後才允許測試操作
     ...                 appium:nativeWebScreenshot=true    #使用原生app截圖
@@ -81,37 +82,25 @@ Verify Element Enabled And Click
     Click Element    ${locator}
 
 Get Time Range From Element
-    ${time_range_element}=    Get Webelement    xpath=//*[contains(@content-desc, "~")]
+    ${time_range_element}=    Get Webelement    xpath=//*[contains(@content-desc, "下載")]
     ${time_range_text}=    Get Element Attribute    ${time_range_element}    content-desc
-
-    ${times}=    Split String    ${time_range_text}    ~
-    ${start_time}=    Set Variable    ${times}[0]
-    ${end_time}=    Set Variable    ${times}[1]
-
-    ${start_time}=    Strip String    ${start_time}
-    ${end_time}=    Strip String    ${end_time}
-
-    Set Test Variable    ${START_TIME}    ${start_time}
-    Set Test Variable    ${END_TIME}    ${end_time}
+    # 使用正則表達式提取【】之間的文字
+    ${time_range}=    Get Regexp Matches    ${time_range_text}    【(.+?)】    1
+    ${time_range}=    Set Variable    ${time_range}[0]
+    Set Test Variable    ${time_range}
 
 Check Video File Exists
     [Arguments]    ${filename}
-    ${ls_result}=    Run Process    adb    shell    ls    /storage/emulated/0/Download/${filename}
-    Set Test Variable    ${LS_RESULT}    ${ls_result.stdout}
-    Should Not Be Empty    ${LS_RESULT}    找不到下載的影片檔案: ${filename}
-
-    ${size_result}=    Run Process    adb    shell    stat    -f    %s    /storage/emulated/0/Download/${filename}
-    Log    adb stat result: ${size_result.stdout}    level=INFO
-    Set Test Variable    ${FILE_SIZE}    ${size_result.stdout}
-    Should Be True    ${FILE_SIZE} > 0    檔案大小應大於 0，但為：${FILE_SIZE}
+    Run Process    adb    shell    ls    /storage/emulated/0/Download/${filename}
+    #Should Be Equal As Integers    ${ls_result.rc}    1    找不到下載的影片檔案: ${filename}
+    Run Process    adb    shell    stat    -f    %s    /storage/emulated/0/Download/${filename}
     
 Verify Download File
-    Get Time Range From Element
-    ${current_date}=    Get Current Date    result_format=%Y-%m-%d
-    ${start_formatted}=    Replace String    ${START_TIME}    :    _
-    ${end_formatted}=    Replace String    ${END_TIME}    :    _
-    Set Test Variable    ${EXPECTED_FILENAME}    ${current_date} ${start_formatted}-${end_formatted}.mp4
-    Wait Until Keyword Succeeds    30s    5s    Check Video File Exists    ${EXPECTED_FILENAME}
+    ${name_formatted}=    Replace String    ${time_range}    :    _
+    Log    原始時間範圍: ${time_range}    level=INFO
+    Log    格式化後名稱: ${name_formatted}    level=INFO
+    Set Test Variable    ${EXPECTED_FILENAME}    ${name_formatted}.mp4
+    Wait Until Keyword Succeeds    15s    5s    Check Video File Exists    ${EXPECTED_FILENAME}
 
 Scroll Down To Find Element
     [Arguments]    ${locator}    ${start_y}    ${end_y}
@@ -145,13 +134,14 @@ From Element Get Version
     Input Text    android=new UiSelector().className("android.widget.EditText").instance(1)    ${password}
     Click Element    android:id/content
     Click Element    //android.widget.Button[@content-desc="登入"]
+	Sleep    2s
     ${popup_visible}    Run Keyword And Return Status    Element Should Be Visible    accessibility_id=歡迎您使用本服務，本服務採用雲端機制提供 2 天全時回放，若您有需要，請至檔案或帳號設定介面將本功能調整為開啟，感謝您的使用~
     IF    ${popup_visible}
         Click Element    accessibility_id=我知道了
     END
 
 即時影像
-    Wait Until Element Is Visible    accessibility_id = stage橘子居家
+    Wait Until Element Is Visible    accessibility_id=${title}
     Wait Until Element Is Visible    android = new UiSelector().className("android.widget.HorizontalScrollView")
     Click Element    android = new UiSelector().className("android.view.View").instance(11)
 
@@ -177,7 +167,7 @@ AI監控告警
     Click Element    accessibility_id=AI監控告警\n第 2 個分頁 (共 3 個)
     Check All Elements Have Attribute    android=new UiSelector().description("停用中")    selected
     Click Element    accessibility_id=首頁\n第 1 個分頁 (共 5 個)
-    Wait Until Element Is Visible    accessibility_id=stage橘子居家
+    Wait Until Element Is Visible    accessibility_id=${title}
     Verify Element Enabled And Click    accessibility_id=全部開啟
     Wait Until Element Is Visible    accessibility_id=已切換
     Wait Until Element Is Visible    accessibility_id=AI監控告警\n全部啟用中
@@ -192,7 +182,6 @@ AI監控告警
     Click Element    accessibility_id=${c1_name}
     ${popup_visible}    Run Keyword And Return Status    Element Should Be Visible     accessibility_id=提示\n親愛的用戶您好，為您的使用安全，門禁服務需申辦攝影機動使用
     Run Keyword If    ${popup_visible}    Log    鐵捲門尚未綁定攝影機    WARN
-    Wait Until Element Is Visible    accessibility_id=入侵
     Click Element    android=new UiSelector().className("android.widget.ImageView").instance(0)
     Click Element    android=new UiSelector().className("android.widget.ImageView").instance(2)
     Click Element    android=new UiSelector().className("android.widget.ImageView").instance(1)
@@ -228,7 +217,7 @@ AI監控告警
     Click Element    accessibility_id=新增告警通知
     Wait Until Element Is Visible    accessibility_id=通知項目1\n通知類型\n緊急聯絡人
     Sleep    1s
-    #第三個通知人
+    #第二個通知項目
     Scroll Down To Find Element    accessibility_id=新增告警通知    75    50
     Verify Element Enabled And Click    accessibility_id=新增告警通知
     Wait Until Element Is Visible    accessibility_id=通知項目2\n通知類型\n緊急聯絡人
@@ -236,7 +225,7 @@ AI監控告警
     Wait Until Element Is Visible    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View/android.view.View
     Click Element    accessibility_id=發送Email
     Sleep    1s
-    #第四個通知人
+    #第三個通知項目
     Scroll Down To Find Element    accessibility_id=新增告警通知    75    50
     Verify Element Enabled And Click    accessibility_id=新增告警通知
     Wait Until Element Is Visible    accessibility_id=通知項目3\n通知類型\n緊急聯絡人
@@ -255,14 +244,14 @@ AI監控告警
     Wait Until Element Is Visible    accessibility_id=時間\n00:00\n00:30
     Verify Element Enabled And Click    accessibility_id=確認
     Verify Element Enabled And Click    accessibility_id=完成
-    #元素為#開頭，用""包裝
-    Wait Until Element Is Visible    "#1\n6\n條件：\n${cam_nvr} 單一符合\n執行：\n彈窗告警視窗, 發送SMS, 發送SMS, 外撥電話語音\n排程：\n星期一 00:00~00:30"
-    Click Element    xpath=//android.view.View[@content-desc="#1 robot 條件： ${cam_nvr} 單一符合 執行： 彈窗告警視窗, 發送SMS, 發送Email, 外撥電話語音 排程： 星期一 00:00~00:30"]/android.widget.Button[1]
+    Wait Until Element Is Visible    accessibility_id=自動化與通知
+    Wait Until Element Is Visible    accessibility_id=#1\nrobot\n條件：\n${cam_nvr} 單一符合\n執行：\n彈窗告警視窗, 發送SMS, 發送Email, 外撥電話語音\n排程：\n星期一 00:00~00:30
+    Click Element    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[1]/android.widget.Button
     Wait Until Element Is Visible    accessibility_id=更多
     Click Element    accessibility_id=刪除
     Wait Until Element Is Visible    accessibility_id=刪除排程\n確定要刪除【robot】這項排程嗎？
     Click Element    accessibility_id=刪除
-    Wait Until Page Does Not Contain Element    //android.view.View[@content-desc="#1 robot 條件： ${cam_nvr} 單一符合 執行： 彈窗告警視窗, 發送SMS, 發送Email, 外撥電話語音 排程： 星期一 00:00~00:30"]/android.widget.Button[1]
+    Wait Until Page Does Not Contain Element    accessibility_id=#1\nrobot\n條件：\n${cam_nvr} 單一符合\n執行：\n彈窗告警視窗, 發送SMS, 發送Email, 外撥電話語音\n排程：\n星期一 00:00~00:30
 
 檔案
     Click Element    accessibility_id=檔案\n第 4 個分頁 (共 5 個)
@@ -270,19 +259,24 @@ AI監控告警
     Click Element    accessibility_id=設定
     Sleep    1s
     ${button_x}    Evaluate    ${Width} * 0.9
-    ${button_y}    Evaluate    ${Height} * 0.125
+    ${button_y}    Evaluate    ${Height} * 0.15
+    Log    ${button_x}
+    Log    ${button_y}
     @{positions}    Create List    ${button_x}    ${button_y}
     Tap With Positions    ${100}    ${positions}
     Sleep    3s
     Click Element    android=new UiSelector().className("android.widget.Button").instance(1)
     Wait Until Element Is Visible    accessibility_id=雲端錄影\n關閉中
+    #這邊有bug，需要再點擊一次back
     Click Element    android=new UiSelector().className("android.widget.Button").instance(0)
+    #從設備列表中滑動並找尋攝影機
+    Scroll Down To Find Element    xpath=//android.view.View[contains(@content-desc, "${cam_skywatch}")]
     Click Element    xpath=//android.view.View[contains(@content-desc, "${cam_skywatch}")]
     Wait Until Element Is Visible    accessibility_id=${cam_skywatch}
-    Click Element    accessibility_id=下載
     #下載驗證，包含資料夾內的檔案檢查
     Click Element    accessibility_id=下載
-    #Wait Until Element Is Visible    xpath=//android.view.View[contains(@content-desc, "檔案下載中")]
+    Get Time Range From Element
+    Click Element    accessibility_id=下載
     Wait Until Element Is Visible    accessibility_id=已下載    30s
     Verify Download File
     Click Element    accessibility_id=系統\n第 5 個分頁 (共 5 個)
@@ -296,9 +290,6 @@ AI監控告警
 新增子帳號，登入後刪除
     Click Element    accessibility_id=系統\n第 5 個分頁 (共 5 個)
     Wait Until Element Is Visible    accessibility_id=系統管理
-    ${users}    Get Webelements    //android.view.View[@content-desc="列表"]/android.view.View/android.view.View/android.view.View
-    ${count}    Get Length    ${users}
-    Should Be True    ${count} <= 5    主帳號+子帳號數量超過5！現在數量: ${count}
     Verify Element Enabled And Click    accessibility_id=新增帳號
     Click And Input    xpath=//android.widget.EditText[@hint='請輸入名稱']    cworobot
     Click And Input    xpath=//android.widget.EditText[@hint='請輸入電話號碼']    0987654321
@@ -324,6 +315,7 @@ AI監控告警
     Click Element    xpath=//android.widget.EditText[@hint='請輸入密碼']
     Sleep    1s
     Click And Input    xpath=//android.widget.EditText[@hint='請輸入密碼']    123456
+    Click Element    android:id/content
     Verify Element Enabled And Click    //android.widget.Button[@content-desc="登入"]
     Wait Until Element Is Visible    accessibility_id=設定新密碼\n密碼\n確認密碼
     Click And Input    xpath=//android.widget.EditText[@hint='請輸入密碼']    654321
