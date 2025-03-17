@@ -3,8 +3,8 @@ from tkinter import filedialog, messagebox, ttk
 import subprocess
 import webbrowser
 import os
-import app_var
 import threading
+import environment_variables
 
 class RobotGUI(tk.Tk):
     """RobotFramework 測試工具類別，繼承tkinter.Tk，作為介面程式的主視窗"""
@@ -27,7 +27,7 @@ class RobotGUI(tk.Tk):
         tk.Label(env_frame, text="選擇環境:").pack(side=tk.LEFT, padx=5)
 
         self.environment_var = tk.StringVar(self)
-        env_combobox = ttk.Combobox(env_frame, textvariable=self.environment_var, values=list(app_var.ENVIRONMENTS.keys()), state="readonly", width=15)
+        env_combobox = ttk.Combobox(env_frame, textvariable=self.environment_var, values=list(environment_variables.ENVIRONMENTS.keys()), state="readonly", width=15)
         env_combobox.pack(side=tk.LEFT, padx=(5, 10))
         env_combobox.bind("<<ComboboxSelected>>", lambda e: self.on_environment_change())
         # 選擇檔案模式
@@ -45,8 +45,8 @@ class RobotGUI(tk.Tk):
         # 執行按鈕
         self.run_button = tk.Button(self, text="執行測試", command=self.run_robot_test)
         self.run_button.pack(pady=(10, 50))
-        # 預設先選擇stage環境
-        self.environment_var.set('stage')
+        # 預設先選擇BMS站台
+        self.environment_var.set('BMS')
         self.on_environment_change()
 
     def on_environment_change(self):
@@ -60,7 +60,7 @@ class RobotGUI(tk.Tk):
         # 獲取當前選擇的環境
         current_env = self.environment_var.get()
         # 定義當前環境配置的變數
-        env_config = app_var.ENVIRONMENTS[current_env]
+        env_config = environment_variables.ENVIRONMENTS[current_env]
 
         # 建立變數標題
         tk.Label(self.variables_container,
@@ -68,7 +68,7 @@ class RobotGUI(tk.Tk):
                  font=("Helvetica", 10, "bold")
                  ).pack(anchor="w", padx=10, pady=(0, 5))
 
-        # 根據選擇的環境(env_config)建立變數設定UI
+        # 根據選擇的環境建立變數設定UI
         for key, def_value in env_config["variables"].items():
             frame = tk.Frame(self.variables_container)
             frame.pack(pady=2, fill="x")
@@ -112,13 +112,13 @@ class RobotGUI(tk.Tk):
             self.run_button.config(state=tk.NORMAL)
             return
 
-        # 設定固定變數 (系統參數) - 從環境變數(app_var.py)中取得
-        os.environ["APPIUM_URL"] = app_var.APPIUM_URL
-        os.environ["PLATFORM_NAME"] = app_var.PLATFORM_NAME
-        os.environ["AUTOMATION_NAME"] = app_var.AUTOMATION_NAME
-        os.environ["APP_PACKAGE"] = app_var.APP_PACKAGE
-        os.environ["APP_ACTIVITY"] = app_var.APP_ACTIVITY
-        os.environ["INSTALL_TIME"] = str(app_var.INSTALL_TIME)
+        # 設定固定變數 (系統參數) - 從環境變數(environment_variables.py)中取得
+        os.environ["APPIUM_URL"] = environment_variables.APPIUM_URL
+        os.environ["PLATFORM_NAME"] = environment_variables.PLATFORM_NAME
+        os.environ["AUTOMATION_NAME"] = environment_variables.AUTOMATION_NAME
+        os.environ["APP_PACKAGE"] = environment_variables.APP_PACKAGE
+        os.environ["APP_ACTIVITY"] = environment_variables.APP_ACTIVITY
+        os.environ["INSTALL_TIME"] = str(environment_variables.INSTALL_TIME)
 
         # 獲取當前環境
         current_env = self.environment_var.get()

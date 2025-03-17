@@ -7,13 +7,6 @@ APP_PACKAGE = "com.kt.aihome"
 APP_ACTIVITY = "com.example.kbro.MainActivity"
 INSTALL_TIME = 60000
 
-COMBOBOX_VARIABLES = ["DEVICE_NAME", "cam_nvr", "cam_skywatch"]
-
-COMBOBOX_OPTIONS = {
-    "DEVICE_NAME": ["RFCNA0X8KAF", "2A181FDH200KK1"],
-    "cam_nvr": ["ALSTI5KL23370661", "ALN3E5FG24250005", "ALSTI5KG23390157"],
-    "cam_skywatch": ["測8C:51:09:D1:05:6A", "測8C:51:09:D1:02:C4"]
-}
 # 環境列表
 ENVIRONMENTS = {
     "stage": {
@@ -27,8 +20,8 @@ ENVIRONMENTS = {
             "version": "",
             "DEVICE_NAME": ""
         },
-        "combobox_variables" : ["DEVICE_NAME", "cam_nvr", "cam_skywatch"],
-        "combobox_options" : {
+        "combobox_variables": ["DEVICE_NAME", "cam_nvr", "cam_skywatch"],
+        "combobox_options": {
             "DEVICE_NAME": ["RFCNA0X8KAF", "2A181FDH200KK1"],
             "cam_nvr": ["ALSTI5KL23370661", "ALN3E5FG24250005", "ALSTI5KG23390157"],
             "cam_skywatch": ["測8C:51:09:D1:05:6A", "測8C:51:09:D1:02:C4"]
