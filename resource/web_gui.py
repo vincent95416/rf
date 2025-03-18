@@ -42,6 +42,10 @@ class RobotGUI(tk.Tk):
         # 建立變數設定的區域
         self.variables_container = tk.Frame(self)
         self.variables_container.pack(fill="both", expand=True, pady=10)
+        # 建立單選控制，決定測試web視窗可視化
+        self.checkbox_var = tk.BooleanVar(value=True)
+        self.checkbox = tk.Checkbutton(self, text="測試畫面隱藏", variable=self.checkbox_var)
+        self.checkbox.pack()
         # 執行按鈕
         self.run_button = tk.Button(self, text="執行測試", command=self.run_robot_test)
         self.run_button.pack(pady=(10, 50))
@@ -112,20 +116,16 @@ class RobotGUI(tk.Tk):
             self.run_button.config(state=tk.NORMAL)
             return
 
-        # 設定固定變數 (系統參數) - 從環境變數(environment_variables.py)中取得
-        os.environ["APPIUM_URL"] = environment_variables.APPIUM_URL
-        os.environ["PLATFORM_NAME"] = environment_variables.PLATFORM_NAME
-        os.environ["AUTOMATION_NAME"] = environment_variables.AUTOMATION_NAME
-        os.environ["APP_PACKAGE"] = environment_variables.APP_PACKAGE
-        os.environ["APP_ACTIVITY"] = environment_variables.APP_ACTIVITY
-        os.environ["INSTALL_TIME"] = str(environment_variables.INSTALL_TIME)
-
         # 獲取當前環境
         current_env = self.environment_var.get()
         os.environ["ENVIRONMENT"] = current_env
 
+        # 取得勾選框的狀態
+        checkbox_value = self.checkbox_var.get()
+
         # 設定使用者變數
         robot_variables = ["--variable", f"environment:{current_env}"]
+        robot_variables.extend(["--variable", f"check_visible:{checkbox_value}"])
 
         for key, entry in self.variables.items():
             if hasattr(entry, 'get'):
@@ -133,14 +133,13 @@ class RobotGUI(tk.Tk):
             else:
                 value = entry.strip()
 
-            if key == "version":  # 如果是 "version" 變數，則加上 "版本號\nv" 字首
-                value = f"版本號\n{value}"
-
             os.environ[key] = value
 
             # 添加到 Robot Framework 命令行參數
             robot_variables.append("--variable")
             robot_variables.append(f"{key}:{value}")
+
+
 
         test_thread = threading.Thread(target=self.run_test_thread, args=(test_case, robot_variables))
         test_thread.daemon = True
@@ -158,7 +157,7 @@ class RobotGUI(tk.Tk):
 
     def run_test_thread(self, test_case, robot_variables):
         """在單獨的線程中執行測試，避免凍結 GUI"""
-        command = ["robot"] + robot_variables + [test_case]
+        command = ["robot", "--outputdir", "../robot_results"] + robot_variables + [test_case]
         print("執行指令:", " ".join(command))
 
         try:
@@ -170,11 +169,11 @@ class RobotGUI(tk.Tk):
             if return_code == 0:
                 self.after(0, lambda: [
                     messagebox.showinfo("成功", "測試執行完成"),
-                    webbrowser.open("report.html")
+                    webbrowser.open("../robot_results/report.html")
                 ])
             else:
                 self.after(0, lambda: messagebox.showerror("錯誤", "測試執行失敗"))
-                self.after(0, lambda: webbrowser.open("log.html"))
+                self.after(0, lambda: webbrowser.open("../robot_results/log.html"))
 
         except Exception as e:
             self.after(0, lambda: messagebox.showerror("錯誤", f"測試執行異常: {str(e)}"))
