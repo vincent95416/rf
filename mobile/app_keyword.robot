@@ -1,5 +1,5 @@
 *** Settings ***
-Library    AppiumLibrary
+Resource    task.robot
 *** Keywords ***
 Initialize Window Size
     ${Width}=    Get Window Width
@@ -11,7 +11,6 @@ Click And Input
     [Arguments]    ${locator}    ${expected_text}
     Click Element    ${locator}
     Input Text    ${locator}    ${expected_text}
-
 
 Check All Elements Have Attribute
     [Arguments]    ${locator}    ${verify_attr}

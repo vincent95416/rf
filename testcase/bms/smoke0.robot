@@ -9,7 +9,9 @@ Suite Setup    Initialize Browser
     Fill Text    id=password    ${pw}
     Click    id=loginBtn
     Wait For Load State    load    30
-    Wait For Elements State    css=body    visible    15s
-    Wait For Elements State    .wrapper    visible    30s
+    Wait For Elements State    .wrapper    visible    15s
     ${current_url}=    Get Url
+    ${key_token}    Session Storage Get Item    token
+    Log    ${key_token}
     Set Global Variable    ${main_url}    ${current_url}
+    Set Global Variable    ${token}    ${key_token}
