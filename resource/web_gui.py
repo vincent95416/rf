@@ -181,7 +181,6 @@ class RobotGUI(tk.Tk):
 
         self.after(0, lambda: self.run_button.config(state=tk.NORMAL))
 
-
 if __name__ == '__main__':
     root = RobotGUI()
     root.mainloop()

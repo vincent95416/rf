@@ -61,14 +61,12 @@ ENVIRONMENTS = {
     },
     "BMS":{
         "variables":{
-            "url" :"http://192.168.11.22/ihouseBA/login.html",
+            "url" :"http://192.168.11.26/",
             "acc" :"admin",
             "pw": "P@ssw0rd",
             "version":"",
         },
         "combobox_variables": ["url"],
-        "combobox_options": {
-            "url" : ["http://192.168.11.22/ihouseBA/login.html", "http://192.168.11.26/ihouseBA/login.html"]
-        }
+        "combobox_options": {}
     }
 }

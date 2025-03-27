@@ -17,7 +17,7 @@ ENVIRONMENTS = {
             "cam_skywatch": "測8C:51:09:D1:02:C4",
             "cam_nvr": "ALSTI5KL23370661",
             "c1_name": "奧創智慧開關testben",
-            "version": "",
+            "version": "v",
             "DEVICE_NAME": ""
         },
         "combobox_variables": ["DEVICE_NAME", "cam_nvr", "cam_skywatch"],
@@ -35,7 +35,7 @@ ENVIRONMENTS = {
             "cam_skywatch": "測8C:51:09:D1:05:6A",
             "cam_nvr": "ALSTI5KL23370526",
             "c1_name": "prod奧創智慧開關C1",
-            "version": "",
+            "version": "v",
             "DEVICE_NAME": ""
         },
         "combobox_variables": ["DEVICE_NAME", "cam_nvr", "cam_skywatch"],
