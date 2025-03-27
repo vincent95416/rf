@@ -2,10 +2,10 @@ import random
 import paho.mqtt.client as mqtt
 import time
 import datetime
-
-broker_address = '192.168.11.23'
-broker_port = 1884
-broker_topic = 'com/cwo/ba/event/D4CFF9A3C4F0'
+import json
+broker_address = 'localhost'
+broker_port = 1883
+broker_topic = 'com/cwo/general_gw001/report/'
 
 def generate_id():
     return f"P_{random.randint(100,999)}"
@@ -33,6 +33,21 @@ def publish(client, topic, message):
         client.reconnect()
         time.sleep(5)
 
+def create_message(device, vals, status):
+    now = datetime.datetime.now()
+    timestamp = int(now.timestamp())  # Convert to milliseconds
+    message_dict = {
+        "vals": {
+            device: {
+                "vals": json.loads(vals),
+                "status": status
+            }
+        },
+        "timestamp": timestamp
+    }
+    message = json.dumps(message_dict, ensure_ascii=False, indent=4)
+    return message
+
 def main():
     client_id = generate_id()
 
@@ -50,11 +65,19 @@ def main():
     client.loop_start()
 
     while True:
-        now = datetime.datetime.now()
-        timestamp_str = now.strftime("%Y/%m/%d %H:%M:%S")
-        message = f"Hello, this is from {client_id}, 在 {timestamp_str}"
-        publish(client, broker_topic, message)
-        time.sleep(60)
+        if 'rand' not in locals():
+            rand = 1
+        else:
+            rand = rand + 1
+        device = 'dev01'
+        vals = json.dumps({
+            "kwh": rand
+        })
+        status = 1
+        message = create_message(device, vals, status)
+        print(message)
+        publish(client, (broker_topic + device), message)
+        time.sleep(1)
 
 if __name__ == '__main__':
     main()
