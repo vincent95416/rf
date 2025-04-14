@@ -48,3 +48,8 @@ Extract Token From URL
     ${token_and_rest}=    Split String    ${parts[1]}    &
     ${Token}=    Set Variable    ${token_and_rest[0]}
     Set Global Variable    ${token}    ${Token}
+    
+Assert Result 0
+    [Arguments]    ${response}
+    ${result_code}    Set Variable    ${response.json()}[result]
+    ${result_code}    Should Be Equal    0

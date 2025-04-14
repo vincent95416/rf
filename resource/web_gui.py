@@ -5,6 +5,7 @@ import webbrowser
 import os
 import threading
 import environment_variables
+import pathlib
 
 class RobotGUI(tk.Tk):
     """RobotFramework 測試工具類別，繼承tkinter.Tk，作為介面程式的主視窗"""
@@ -139,8 +140,6 @@ class RobotGUI(tk.Tk):
             robot_variables.append("--variable")
             robot_variables.append(f"{key}:{value}")
 
-
-
         test_thread = threading.Thread(target=self.run_test_thread, args=(test_case, robot_variables))
         test_thread.daemon = True
         test_thread.start()
@@ -167,13 +166,15 @@ class RobotGUI(tk.Tk):
             self.current_test_process = None
 
             if return_code == 0:
+                report_path = pathlib.Path("../robot_results/report.html").resolve().as_uri()
                 self.after(0, lambda: [
                     messagebox.showinfo("成功", "測試執行完成"),
-                    webbrowser.open("../robot_results/report.html")
+                    webbrowser.open(report_path)
                 ])
             else:
+                log_path = pathlib.Path("../robot_results/log.html").resolve().as_uri()
                 self.after(0, lambda: messagebox.showerror("錯誤", "測試執行失敗"))
-                self.after(0, lambda: webbrowser.open("../robot_results/log.html"))
+                self.after(0, lambda: webbrowser.open(log_path))
 
         except Exception as e:
             self.after(0, lambda: messagebox.showerror("錯誤", f"測試執行異常: {str(e)}"))
