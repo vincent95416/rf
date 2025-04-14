@@ -14,6 +14,7 @@ Suite Setup    Continues_page
     ${page_data}    Set Variable    ${page_response.json()}[data]
     Log    ${page_data}
     ${page_id}    Set Variable    ${page_data}[id]
+    ${page_id}    Set Global Variable    ${page_id}
     &{newtag_payload}    Create Dictionary    parent=${page_id}    oid1=page99    oid2=robot_tag    oid4=00000000-0000-0000-0000-000000000000    oid5=100    groudid=00000000-0000-0000-0000-000000000000
     ${tag_response}    POST    url=http://192.168.11.26/TreeData/treedata/?token=${token}    headers=&{header}    json=&{newtag_payload}    expected_status=200
     ${tag_id}    Set Variable    ${tag_response.json()}[data][id]
