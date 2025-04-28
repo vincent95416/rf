@@ -53,7 +53,7 @@ Suite Setup    Continues_page
     Wait For Elements State    id=next_page_url >>> p[databind="13F-VRF-AC-B5-35-FNODETempSet_airConditioner"]    visible
     ${now_temp}    Get Text    id=next_page_url >>> p[databind="13F-VRF-AC-B5-35-FNODETempSet_airConditioner"]
     ${expected_temp}    Evaluate    int(${now_temp}) + 1
-    ${set_temp}    Set Global Variable    ${expected_temp}
+    Set Global Variable    ${set_temp}    ${expected_temp}
 
 widget告警trigger、setvalue
     [Documentation]    延續冷氣widget，做setvalue。接著改為儀表板驗證trigger

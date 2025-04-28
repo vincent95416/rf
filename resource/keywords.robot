@@ -1,5 +1,9 @@
 *** Settings ***
-Resource    ../init.robot
+Library    Browser
+Library    DateTime
+Library    String
+Resource    ../resource/keywords.robot
+Variables    ../resource/environment_variables.py
 *** Keywords ***
 Wait for element and click it
     [Arguments]    ${locator}

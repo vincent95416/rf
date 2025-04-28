@@ -17,7 +17,7 @@ X = sm.add_constant(x)
 model = sm.OLS(y, X)
 # 訓練模型
 results = model.fit()
-顯示回歸結果
+#顯示回歸結果
 correlation_matrix = df.corr()
 correlation_with_med = correlation_matrix['MedInc'].drop('MedInc')
 var_max = correlation_with_med.idxmax()
