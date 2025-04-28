@@ -52,4 +52,4 @@ Extract Token From URL
 Assert Result 0
     [Arguments]    ${response}
     ${result_code}    Set Variable    ${response.json()}[result]
-    ${result_code}    Should Be Equal    0
+    Should Be Equal As Integers    ${result_code}    0

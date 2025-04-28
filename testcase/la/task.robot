@@ -1,8 +1,8 @@
 *** Settings ***
 Library    Browser
 Library    DateTime
-Resource    ../resource/keywords.robot
-Variables    ../resource/environment_variables.py
+Resource    ../../resource/keywords.robot
+Variables    ../../resource/environment_variables.py
 
 *** Keywords ***
 Initialize Browser

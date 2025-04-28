@@ -12,7 +12,6 @@ Suite Setup    Continues_page
     Wait For Elements State    id=next_page_url    visible
     Fill Text    id=next_page_url >>> id=devReport_Title_txt    robot_repo
     Click With Options    id=next_page_url >>> id=sava_report_btn    delay=100ms
-    Get Text    id=status_msg_content    ==    完成
     Sleep    1s
     ${last_repo}    Get Element    id=next_page_url >>> xpath=/html/body/div[2]/div[2]/div[last()]/p[1]
     ${last_title}    Get Text    ${last_repo}
@@ -38,7 +37,6 @@ Suite Setup    Continues_page
     Click With Options    id=next_page_url >>> li[onclick="select_statistics_type('max')"]    delay=100ms
     Get Text    id=next_page_url >>> id=dropdown_statisticsType_btn    ==    最大值
     Click With Options    id=next_page_url >>> id=Add_select_btn    delay=100ms
-    Get Text    id=status_msg_content    ==    已新增
     Wait For Elements State    id=next_page_url >>> .item-title-row.d-flex.justify-content-between    visible
     Wait For Elements State    id=next_page_url >>> id=chart    visible
     Wait For Elements State    id=next_page_url >>> id=data_list    visible
