@@ -65,8 +65,12 @@ ENVIRONMENTS = {
             "acc" :"admin",
             "pw": "P@ssw0rd",
             "version":"",
+            "deviceID": "請選擇，widget、trigger建立使用"
+
         },
-        "combobox_variables": ["url"],
-        "combobox_options": {}
+        "combobox_variables": ["deviceID"],
+        "combobox_options": {
+            "deviceID": ["13F-VRF-AC-B5-35-F"]
+        }
     }
 }

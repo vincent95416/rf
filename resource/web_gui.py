@@ -43,7 +43,7 @@ class RobotGUI(tk.Tk):
         # 建立變數設定的區域
         self.variables_container = tk.Frame(self)
         self.variables_container.pack(fill="both", expand=True, pady=10)
-        # 建立單選控制，決定測試web視窗可視化
+        # 建立單選控制，決定測試browser視窗可視化
         self.checkbox_var = tk.BooleanVar(value=True)
         self.checkbox = tk.Checkbutton(self, text="測試畫面隱藏", variable=self.checkbox_var)
         self.checkbox.pack()

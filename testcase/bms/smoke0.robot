@@ -2,13 +2,9 @@
 Resource    ./task.robot
 Suite Setup    Initialize Browser
 
-*** Variables ***
-&{header}    Content-Type=application/json
-&{newuser_payload}    groupId=00000000-0000-0000-0000-000000000000    acc=0000    pwd=0000    name=robot_admin
-&{newpage_payload}    parent=00000000-0000-0000-0000-000000000000    oid1=menu99    oid2=robot_page    oid3=nav_ic_bulletin    oi4=[]    oid5=00000000-0000-0000-0000-000000000000    groudid=00000000-0000-0000-0000-000000000000
-
 *** Test Cases ***
 登入
+    [Documentation]    登入後取得url,token，(待後續整合到每分案例的setup)
     New Page    ${url}    load
     Fill Text    id=account    ${acc}
     Fill Text    id=password    ${pw}

@@ -12,6 +12,6 @@ Initialize Browser
     New Context    viewport={'width': 1600, 'height': 900}    acceptDownloads=True
 
 Continues_page
-    New Browser    chromium    headless=${check_visible}    slowMo=100
+    New Browser    chromium    headless=${check_visible}    slowMo=1
     New Context    viewport={'width': 1600, 'height': 900}    acceptDownloads=True
     New Page    ${main_url}

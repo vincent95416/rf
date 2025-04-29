@@ -26,8 +26,8 @@ Suite Setup    Continues_page
     Fill Text    id=next_page_url >>> id=Table_title    robot_col
     Click    id=next_page_url >>> id=dropdown_devs
     Get Attribute    id=next_page_url >>> id=dropdown_devs_list    class    ==    dropdown-menu menu-scroll show
-    Click With Options    id=next_page_url >>> li[onclick="select_devs('13F-VRF-AC-B5-35-F')"]    delay=100ms
-    Get Text    id=next_page_url >>> id=dropdown_devs_btn    ==    13F-VRF-AC-B5-35-F
+    Click With Options    id=next_page_url >>> li[onclick="select_devs('${deviceID}')"]    delay=100ms
+    Get Text    id=next_page_url >>> id=dropdown_devs_btn    ==    ${deviceID}
     Click    id=next_page_url >>> id=dropdown_nodes
     Get Attribute    id=next_page_url >>> id=dropdown_nodes_list    class    ==    dropdown-menu menu-scroll show
     Click With Options    id=next_page_url >>> li[onclick="select_nodes('VTP-0001')"]    delay=100ms
@@ -51,7 +51,7 @@ Suite Setup    Continues_page
     Wait For Elements State    id=next_page_url >>> .report-list-body    visible
     Click With Options    id=next_page_url >>> p[data-i18n='report.button.history']    delay=100ms
     Wait For Elements State    id=raw_iframe    visible
-    Select Options By    id=raw_iframe >>> id=devs_list    value    13F-VRF-AC-B5-35-F
+    Select Options By    id=raw_iframe >>> id=devs_list    value    ${deviceID}
     ${download_2}=    Download    id=raw_iframe >>> id=sava_report_btn
     Wait Until Keyword Succeeds    15s    3s    Should Be Equal    ${download_2.state}    finished
     Click With Options    id=raw_iframe >>> input[onclick="close_repair_info()"]    delay=500ms    force=True
