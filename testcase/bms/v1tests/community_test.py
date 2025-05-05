@@ -39,11 +39,6 @@ class TestBuildingOperations:
         assert response.status_code == 200
         assert response.json()['result'] == 0
         assert "data" in response.json()
-        url = f"{base_url}/communities/{COMMUNITY_ID}/buildings"
-        response = requests.get(url, headers=auth_headers)
-        assert response.status_code == 200
-        assert response.json()['result'] == 0
-        assert "data" in response.json()
         #找building列表
         fetch_url = f"{base_url}/communities/{COMMUNITY_ID}/buildings"
         fetch_response = requests.get(fetch_url, headers=auth_headers)
@@ -153,7 +148,7 @@ class TestHouseOperations:
 
     def test_postal_list_for_house(self, base_url, auth_headers, create_house):
         house_id, house_code = create_house
-        url = f"{base_url}/communities/{COMMUNITY_ID}/postManagement/{house_id}?pageSize=10&status=unclaimed"
+        url = f"{base_url}/communities/{COMMUNITY_ID}/postManagement/households/{house_id}?status=unclaimed"
         response = requests.get(url, headers=auth_headers)
         assert response.status_code == 200
         assert response.json()['result'] == 0
