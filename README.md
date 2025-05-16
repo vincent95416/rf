@@ -22,12 +22,6 @@
 
 
 
-* **python作品:** 配合公司Iot專案，開發mqtt模擬器(可應用至實務上電錶資料)、scikit learn做數據處理(Regression、Clustering)
-
-
-
-
-
 * **多技術棧支援:** 靈活運用 Python, Pytest, Robot Framework, Playwright, Requests, Appium, FastAPI 進行測試開發、資料處理 與服務建構。
 
 
@@ -83,10 +77,11 @@
 * **MQTT 連線與測試 (MQTT Connection & Testing):**
 
     包含 **MQTT** 連線客戶端的程式碼及相關模組。這些模組展示了與 MQTT 訊息代理建立連線、收發訊息，以及測試基於訊息佇列的系統或 IoT 裝置的能力。
+    
 
     
 
-**Web API 服務 (基於 FastAPI):**
+* **Web API 服務 (基於 FastAPI):**
     實作一個輕量級的 Web API 服務，使用 Python FastAPI 框架建構。
 
 
