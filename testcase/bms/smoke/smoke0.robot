@@ -1,6 +1,6 @@
 *** Settings ***
-Resource    ./task.robot
-Suite Setup    Initialize Browser
+Resource    ../task.robot
+Suite Setup    Basic Browser
 
 *** Test Cases ***
 登入

@@ -1,133 +1,62 @@
 *** Settings ***
 Resource    ./task.robot
-Suite Setup    Continuous page
+Suite Setup    Continuous Page
 
 *** Test Cases ***
-widget編輯模式
-    [Documentation]    打開widget編輯模式,以利後續測試
-    Wait For Load State    load    30
-    Wait For Elements State    .wrapper    visible
-    Wait For Element And Click It    id=next_page_url >>> id=btn_show_widget
-    Wait For Elements State    id=next_page_url >>> css=body    visible    15s
-
-新增widget
-    [Tags]    widget
-    Wait For Elements State    id=next_page_url >>> css=body    visible    15s
-    Hover    id=menu_aside
-    Wait For Element And Click It    //p[@class="nav_page_text" and text()="測試"]
-    Click With Options    id=next_page_url >>> //p[@class='mb-0 d-inline-block text-truncate' and text()='${init_label}']    clickCount=2
-    Wait For Element And Click It    id=next_page_url >>> id=btn_add_widget
-    Wait For Elements State    id=btn_area    visible    15s
-    Wait For Element And Click It    id=儀表板_btn
-    Click With Options    id=dashboard_battery_div    force=True
-    Sleep    1s
-    #Get Attribute    id=dashboard_battery_div    class    widget-group widget-selected
-    ${attribute_value}    Get Attribute    id=dashboard_battery_div    class
-    Should Be Equal       ${attribute_value}    widget-group widget-selected
-    Click With Options    id=set_btn    delay=300ms
-    Fill Text    id=title    大電池
-    Fill Text    id=s_title    小電池
-    Fill Text    id=note_info    電池
-    Select Options By    id=data_node_dev    value   ${device1}
-    Sleep    1s
-    Click With Options    id=old_save_Btn    delay=100ms
-    Sleep    1s
-    Wait For Elements State    id=next_page_url >>> css=body    visible    15s
-    Get Text    id=next_page_url >>> .chart-name    ==    電池
-    Get Text    id=next_page_url >>> .sub-title    ==    小電池
-    Get Text    id=next_page_url >>> .main-title.zh-TW    ==    大電池
-    ${value}    Get Text    id=next_page_url >>> .chart-value
-    Should Not Contain    ${value}    Na
-
-搬移widget
-    [Tags]    widget
-    Click With Options    id=next_page_url >>> css=button.icon.icon-three-dots.icon-40[onclick='widgetEdit(event)']    delay=200ms
-    Click With Options    id=next_page_url >>> //span[@data-i18n='widget.edit.move' and text()='搬移 Widget']    delay=200ms
-    Wait For Elements State    id=next_page_url >>> .modal-content    visible
-    Select Options By    id=next_page_url >>> id=widget_page_tag    label    robot2
-    Click With Options    id=next_page_url >>> id=widget_edit_submit    delay=200ms
-    Click With Options    id=next_page_url >>> //p[@class='mb-0 d-inline-block text-truncate' and text()='robot2']    clickCount=2
-    Wait For Elements State    id=next_page_url >>> css=body    visible    15s
-    Get Text    id=next_page_url >>> .chart-name    ==    電池
-    Get Text    id=next_page_url >>> .sub-title    ==    小電池
-    Get Text    id=next_page_url >>> .main-title.zh-TW    ==    大電池
-
-複製、刪除widget
-    [Tags]    widget
-    Click With Options    id=next_page_url >>> css=button.icon.icon-three-dots.icon-40[onclick='widgetEdit(event)']    delay=200ms
-    Click With Options    id=next_page_url >>> //span[@data-i18n='widget.edit.copy' and text()='複製 Widget']    delay=200ms
-    Wait For Elements State    id=next_page_url >>> .modal-content    visible
-    Select Options By    id=next_page_url >>> id=widget_page_tag    label    ${init_label}
-    Click With Options    id=next_page_url >>> id=widget_edit_submit    delay=200ms
-    Sleep    3s
-    Wait For Elements State    id=next_page_url >>> css=body    visible    15s
-    #刪除
-    Click With Options    id=next_page_url >>> css=button.icon.icon-three-dots.icon-40[onclick='widgetEdit(event)']    delay=200ms
-    Click With Options    id=next_page_url >>> .delete    delay=200ms
-    Wait For Elements State    id=next_page_url >>> .modal-content    visible
-    Wait For Elements State    id=next_page_url >>> id=delete_submit    stable
-    Click With Options    id=next_page_url >>> id=delete_submit    delay=500ms
-    Sleep    3s
-    Wait For Elements State    id=next_page_url >>> .widget-group.widget-s.widget-edit.ui-sortable-handle    detached
-    #檢查複製結果
-    Click With Options    id=next_page_url >>> //p[@class='mb-0 d-inline-block text-truncate' and text()='${init_label}']    clickCount=2
-    Wait For Elements State    id=next_page_url >>> .chart-value    visible
-    Get Text    id=next_page_url >>> .chart-name    ==    電池
-    Get Text    id=next_page_url >>> .sub-title    ==    小電池
-    Get Text    id=next_page_url >>> .main-title.zh-TW    ==    大電池
-
-編輯widget,告警觸發
-    [Tags]    widget
-    [Documentation]    修改widget致告警事件觸發
-    Click With Options    id=next_page_url >>> .chart-value    clickCount=2    delay=100ms    force=True
-    Sleep    1s
-    Wait For Elements State    id=dashboard_battery_div    visible
-    #Get Attribute    id=dashboard_battery_div    class    widget-group setting widget-selected
-    Click With Options    id=set_btn    delay=500ms
-    Clear And Input Text    id=baseline_val    1
-    Click    id=trigger-1
-    Fill Text    id=alert_note    無保請回
-    Click With Options    id=old_save_Btn    delay=500ms
+報表管理
+    [Documentation]    到報表管理建立報表做建立,編輯,刪除動作以及下載項目(歷史數據,報表)
+    Reload
+    Wait For Element And Click It    id=report_list
     Wait For Elements State    id=next_page_url >>> css=body    visible
-    Wait For Elements State    id=next_page_url >>> css=[onclick="switch_triggerMenu(event)"]    visible
-
-#事件管理
-#    Wait For Elements State    id=eventPop_iframe    visible    60s
-#    Wait For Elements State    id=eventPop_iframe >>> id=all_info_count    stable
-#    ${text}    Get Text    id=eventPop_iframe >>> id=event_alarm_msg
-#    Sleep    3s
-#    Should Contain    ${text}    無保請回
-#    #檢查告警內容是否包含預期文字,否則點下一頁找尋,最多五次
-##    ${page}    Set Variable    0
-##    FOR    ${index}    IN RANGE    6
-##        ${text}    Get Text    id=eventPop_iframe >>> id=event_alarm_msg
-##        ${result}    Run Keyword And Ignore Error    Should Contain    ${text}    無保請回
-##        Run Keyword If    '${result[0]}' == 'PASS'    Exit For Loop
-##        Run Keyword If    '${result[0]}' == 'FAIL'    Click    id=eventPop_iframe >>> .icon.icon-event-pop-after.icon-28
-##        Run Keyword If    '${result[0]}' == 'FAIL'    Sleep    1s
-##        Run Keyword If    '${result[0]}' == 'FAIL'    Set Variable    ${page}    ${page} + 1
-##    END
-##    Sleep    1s
-#    Click With Options    id=eventPop_iframe >>> id=widget_btn    delay=300ms
-#    Hover    id=menu_aside
-#    Wait For Element And Click It    id=event_list
-#    Wait For Elements State    id=next_page_url >>> css=body    visible
-#    Get Text    id=next_page_url >>> xpath=/html/body/main/div[2]/ul/li[1]/div[1]/div[2]/div[1]/div[2]/span[2]    ==    未處理
-#    Get Text    id=next_page_url >>> xpath=/html/body/main/div[2]/ul/li[1]/div[1]/div[2]/div[2]/span[4]    ==    ${text}
-#    Click With Options    id=next_page_url >>> .ev-link    delay=100ms
-#    Wait For Elements State    id=next_page_url    visible
-#    Get Attribute    id=next_page_url >>> xpath=/html/body/div[1]/div/div/div[2]/div    class    ==    widget-group widget-s widget-view event-widget
-#    Click    id=next_page_url >>> .more-btn more-alarm-close
-#    Wait For Elements State    id=next_page_url >>> .trigger-menu list-group d-block    visible
-#    Click With Options    id=next_page_url >>> //span[@data-i18n='widget.edit.trigger_close' and text()='關閉告警']
-#    Get Text    id=status_msg_content    ==    已關閉告警
-
-刪除widget
-    [Tags]    widget
-    Click With Options    id=next_page_url >>> css=button.icon.icon-three-dots.icon-40[onclick='widgetEdit(event)']    delay=200ms
-    Click With Options    id=next_page_url >>> .delete    delay=200ms
-    Wait For Elements State    id=next_page_url >>> .modal-content    visible
-    Wait For Elements State    id=next_page_url >>> id=delete_submit    stable
-    Click With Options    id=next_page_url >>> id=delete_submit    delay=500ms
-    Sleep    3s
-    Wait For Elements State    id=next_page_url >>> .widget-group.widget-s.widget-edit.ui-sortable-handle    detached
+    Click With Options    id=next_page_url >>> id=add_widget_div
+    Wait For Elements State    id=next_page_url    visible
+    Fill Text    id=next_page_url >>> id=devReport_Title_txt    robot_repo
+    Click With Options    id=next_page_url >>> id=sava_report_btn    delay=100ms
+    Sleep    1s
+    ${last_repo}    Get Element    id=next_page_url >>> xpath=/html/body/div[2]/div[2]/div[last()]/p[1]
+    ${last_title}    Get Text    ${last_repo}
+    Should Be Equal    ${last_title}    robot_repo
+    Click With Options    ${last_repo}    delay=500ms
+    Select Options By    id=next_page_url >>> id=reportDisplay    value    table_chart
+    Select Options By    id=next_page_url >>> id=chart_list    value    ColumnChart
+    Select Options By    id=next_page_url >>> id=search_type    value    day_report
+    Sleep    1s
+    Click With Options    id=next_page_url >>> id=add-item-dropdown    delay=100ms
+    Wait For Elements State    id=next_page_url >>> id=search_set_area    visible
+    Fill Text    id=next_page_url >>> id=Table_title    robot_col
+    Click    id=next_page_url >>> id=dropdown_devs
+    Get Attribute    id=next_page_url >>> id=dropdown_devs_list    class    ==    dropdown-menu menu-scroll show
+    Click With Options    id=next_page_url >>> li[onclick="select_devs('${device_id}')"]    delay=100ms
+    Get Text    id=next_page_url >>> id=dropdown_devs_btn    ==    ${device_id}
+    Click    id=next_page_url >>> id=dropdown_nodes
+    Get Attribute    id=next_page_url >>> id=dropdown_nodes_list    class    ==    dropdown-menu menu-scroll show
+    Click With Options    id=next_page_url >>> li[onclick="select_nodes('${node_id}')"]    delay=100ms
+    Get Text    id=next_page_url >>> id=dropdown_nodes_btn    ==    ${node_id}
+    Click    id=next_page_url >>> id=dropdown_statisticsType
+    Get Attribute    id=next_page_url >>> id=dropdown_statisticsType_list    class    ==    dropdown-menu menu-scroll show
+    Click With Options    id=next_page_url >>> li[onclick="select_statistics_type('max')"]    delay=100ms
+    Get Text    id=next_page_url >>> id=dropdown_statisticsType_btn    ==    最大值
+    Click With Options    id=next_page_url >>> id=Add_select_btn    delay=100ms
+    Wait For Elements State    id=next_page_url >>> .item-title-row.d-flex.justify-content-between    visible
+    Wait For Elements State    id=next_page_url >>> id=chart    visible
+    Wait For Elements State    id=next_page_url >>> id=data_list    visible
+    Click With Options    id=next_page_url >>> id=export_report    delay=500ms
+    Wait For Elements State    id=next_page_url >>> .dropdown-menu.report.dropdown-menu-right.show    visible
+    # 在15秒內每3秒檢查下載狀態
+    Sleep    1s
+    ${download_1}=    Download    id=next_page_url >>> a[onclick='exportExcel()']
+    Wait Until Keyword Succeeds    15s    3s    Should Be Equal    ${download_1.state}    finished
+    # 歷史資料下載
+    Click With Options    id=next_page_url >>> id=sava_report_btn    delay=100ms
+    Wait For Elements State    id=next_page_url >>> .report-list-body    visible
+    Click With Options    id=next_page_url >>> p[data-i18n='report.button.history']    delay=100ms
+    Wait For Elements State    id=raw_iframe    visible
+    Select Options By    id=raw_iframe >>> id=devs_list    value    ${device_id}
+    ${download_2}=    Download    id=raw_iframe >>> id=sava_report_btn
+    Wait Until Keyword Succeeds    15s    3s    Should Be Equal    ${download_2.state}    finished
+    Click With Options    id=raw_iframe >>> input[onclick="close_repair_info()"]    delay=500ms    force=True
+    Wait For Elements State    id=raw_data_block    hidden
+    # 刪除
+    Click With Options    id=next_page_url >>> xpath=/html/body/div[2]/div[2]/div[last()]/div/div[2]    force=True    delay=100ms
+    Click With Options    id=next_page_url >>> xpath=/html/body/div[2]/div[2]/div[last()]/div/div[3]/p    force=True    delay=100ms
+    Click With Options    button[onclick="delete_confirm_submit()"]

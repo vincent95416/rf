@@ -1,9 +1,9 @@
 *** Settings ***
-Resource    ./task.robot
-Suite Setup    Continues_page
+Resource    ../task.robot
+Suite Setup    Continues Page
 
 *** Variables ***
-&{headers}    Content-Type=application/json    Authorization=${token}
+&{headers}    Content-Type=application/json    Authorization=${token}    Accept=application/json    User-Agent=RobotFramework    Connection=keep-alive
 
 *** Test Cases ***
 設備管理
@@ -70,7 +70,7 @@ Suite Setup    Continues_page
     Wait For Elements State    .ui-sortable    visible
     Fill Text    id=script_name_name    robot_scenario
     Select Options By    id=script_script_action_device_1    value    Do_123
-    Select Options By    id=script_script_action_node_1    value    Do_00
+    Select Options By    id=script_script_action_node_1    value    Do_04
     Select Options By    id=script_script_action_di_node_value_1    value    0
     Wait For Elements State    id=basicOffcanvas_submit    enabled
     Click With Options    id=basicOffcanvas_submit    delay=200ms
@@ -118,7 +118,7 @@ Suite Setup    Continues_page
     Click With Options    id=automated_trigger_condition_timing_0    delay=100ms
     Select Options By    id=automated_trigger_condition_schedule_timing_0    value    00:00
     Select Options By    id=automated_automated_control_device    value    Do_123
-    Select Options By    id=automated_automated_control_node    value    Do_00
+    Select Options By    id=automated_automated_control_node    value    Do_04
     Select Options By    id=automated_automated_control_di_node_value    value    0
     Wait For Elements State    id=basicOffcanvas_submit    enabled
     Click With Options    id=basicOffcanvas_submit    delay=200ms
@@ -156,7 +156,7 @@ Suite Setup    Continues_page
     Fill Text    input[placeholder='請輸入名稱']    robot_multi-trigger
     Select Options By    xpath=/html/body/div[14]/div/div[2]/div[3]/div/select    value    0
     Select Options By    .form-control.border-radius-top    value    Do_123
-    Select Options By    .form-control.border-radius-bottom    value    Do_00
+    Select Options By    .form-control.border-radius-bottom    value    Do_04
     Select Options By    xpath=/html/body/div[14]/div/div[2]/div[3]/div[2]/div/div[4]/select    value    0
     Wait For Elements State    xpath=/html/body/div[14]/div/div[3]/button[2]    enabled
     Click With Options    xpath=/html/body/div[14]/div/div[3]/button[2]    delay=200ms
@@ -192,13 +192,13 @@ Suite Setup    Continues_page
     Click With Options    id=next_page_url >>> id=add-item-btn    delay=100ms
     Wait For Elements State    .offcanvas.offcanvas-s.show    visible
     Fill Text    id=demand_name_name    robot_demand
-    Select Options By    id=demand_demand_target_device    value    ${deviceID}
+    Select Options By    id=demand_demand_target_device    value    ${device_id}
     Select Options By    id=demand_demand_target_node    value    FanSpeed
     Fill Text    id=demand_demand_target_value    1
     Fill Text    id=demand_execute_action_target_val_1    1
     Select Options By    id=demand_execute_action_execute_type_1    value    1
     Select Options By    id=demand_execute_action_device_1    value    Do_123
-    Select Options By    id=demand_execute_action_node_1    value    Do_00
+    Select Options By    id=demand_execute_action_node_1    value    Do_04
     Select Options By    id=demand_execute_action_di_node_value_1    value    0
     Wait For Elements State    id=basicOffcanvas_submit    enabled
     Click With Options    id=basicOffcanvas_submit    delay=200ms

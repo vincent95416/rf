@@ -12,7 +12,7 @@ class RobotGUI(tk.Tk):
     def __init__(self):
         """初始化 GUI 視窗，設定標題、大小，並建立 UI 元件"""
         super().__init__()
-        self.title("Robotframework 測試工具")
+        self.title("RobotFramework 啟動介面")
         self.geometry("500x550")    #寬*高
         self.variables = {}  # 存放變數名稱與對應輸入框的字典
         self.current_test_process = None  # 用於存儲測試程序的執行狀態

@@ -33,13 +33,15 @@ ENVIRONMENTS = {
     },
     "ACER": {
         "variables": {
-            "url": "http://192.168.11.123/ihouseBA/login.html",
+            "url": "http://192.168.11.157/",
             "acc": "admin",
             "pw": "P@ssw0rd",
             "version":"",
-            "init_label": "13-1",
-            "device1": "0CFE5DEF6376",    #widget設定用
-            "device2": "_devGroup1-VTE-0047",
+            "department": "自動化工具專用>組織",
+            "device_id": "13F-VRF-AC-B5-35-F",
+            "node_id":  "TempSet",
+            "trigger_timing_start": "00:00",
+            "trigger_timing_end": "00:00"
         },
         "combobox_variables": [],
         "combobox_options": {}
@@ -61,16 +63,19 @@ ENVIRONMENTS = {
     },
     "BMS":{
         "variables":{
-            "url" :"http://192.168.11.26/",
+            "url" :"http://192.168.11.180/",
             "acc" :"admin",
             "pw": "P@ssw0rd",
             "version":"",
-            "deviceID": "請選擇，widget、trigger建立使用"
-
+            "device_id": "請選擇，widget、trigger建立使用",
+            "node_id":  "TempSet",
+            "trigger_timing_start": "00:00",
+            "trigger_timing_end": "00:00"
         },
-        "combobox_variables": ["deviceID"],
+        "combobox_variables": ["url", "device_id"],
         "combobox_options": {
-            "deviceID": ["13F-VRF-AC-B5-35-F"]
+            "url": ["http://192.168.11.180/", "http://192.168.11.151/", "http://192.168.11.152/", "http://192.168.11.153/", "http://192.168.11.154/", "http://192.168.11.155/", "http://192.168.11.156/"],
+            "device_id": ["13F-VRF-AC-B5-35-F"]
         }
     }
 }
