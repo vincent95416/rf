@@ -28,7 +28,7 @@
 
 
 
-* **多技術棧支援:** 靈活運用 Python, Pytest, Robot Framework,Playwright, Requests, Appium 進行測試開發、資料處理。
+* **多技術棧支援:** 靈活運用 Python, Pytest, Robot Framework, Playwright, Requests, Appium, FastAPI 進行測試開發、資料處理 與服務建構。
 
 
 
@@ -66,7 +66,7 @@
 
 
 
-除了核心的自動化框架功能外，本專案還包含以下模組，用於展示更廣泛的測試相關能力和您的技術廣度：
+除了核心的自動化框架功能外，本專案還包含以下python模組：
 
 
 
@@ -83,6 +83,11 @@
 * **MQTT 連線與測試 (MQTT Connection & Testing):**
 
     包含 **MQTT** 連線客戶端的程式碼及相關模組。這些模組展示了與 MQTT 訊息代理建立連線、收發訊息，以及測試基於訊息佇列的系統或 IoT 裝置的能力。
+
+    
+
+**Web API 服務 (基於 FastAPI):**
+    實作一個輕量級的 Web API 服務，使用 Python FastAPI 框架建構。
 
 
 
