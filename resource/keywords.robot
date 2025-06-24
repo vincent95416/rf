@@ -82,11 +82,11 @@ Apply Trigger Single Mode
     Click With Options    id=automated_schedule_schedule_0    delay=100ms
     Select Options By    id=automated_schedule_schedule_time_0_start    value    ${time_start}
     Select Options By    id=automated_schedule_schedule_time_0_end    value    ${time_end}
-    Wait For Elements State    id=basicOffcanvas_submit    enabled
-    Click With Options    id=basicOffcanvas_submit    delay=200ms
+    Wait For Elements State    button[onclick="basicOffcanvas_submit('automated')"]    enabled
+    Click With Options    button[onclick="basicOffcanvas_submit('automated')"]    delay=200ms
     
 Apply Trigger Any And All Mode
-    [Documentation]    單一觸發的自動化排程，以滿足建立多個不同通知頻率的排程
+    [Documentation]    擇一/同時觸發的自動化排程，以滿足建立多個不同通知頻率的排程
     [Arguments]    ${type}    ${name}    ${frequency}    ${device}    ${node}    ${time_start}    ${time_end}
     Fill Text    id=automated_name_name    ${name}
     Select Options By    id=automated_trigger_condition_condition_type    value    ${type}
@@ -109,5 +109,27 @@ Apply Trigger Any And All Mode
     Click With Options    id=automated_schedule_schedule_0    delay=100ms
     Select Options By    id=automated_schedule_schedule_time_0_start    value    ${time_start}
     Select Options By    id=automated_schedule_schedule_time_0_end    value    ${time_end}
-    Wait For Elements State    id=basicOffcanvas_submit    enabled
-    Click With Options    id=basicOffcanvas_submit    delay=200ms
+    Wait For Elements State    button[onclick="basicOffcanvas_submit('automated')"]    enabled
+    Click With Options    button[onclick="basicOffcanvas_submit('automated')"]    delay=200ms
+    
+Apply Notify Any And All Mode
+    [Documentation]    擇一/同時觸發的多條件告警，以滿足建立多個不同通知頻率的排程
+    [Arguments]    ${type}    ${name}    ${frequency}    ${time_start}    ${time_end}
+    Fill Text    input[placeholder="請輸入名稱"]    ${name}
+    Select Options By    xpath=/html/body/div[14]/div/div[2]/div[3]/div/select    value    ${type}
+    Select Options By    xpath=/html/body/div[14]/div/div[2]/div[3]/div[2]/div/div[3]/div/select[1]    value    Do_123
+    Select Options By    xpath=/html/body/div[14]/div/div[2]/div[3]/div[2]/div/div[3]/div/select[2]    value    Do_04
+    Select Options By    xpath=/html/body/div[14]/div/div[2]/div[3]/div[2]/div/div[4]/select    value    0
+    # 選擇通知頻率與內容
+    Click With Options    label[for="alertFrequencyType_${frequency}"]    delay=200ms
+    Fill Text    xpath=/html/body/div[14]/div/div[2]/div[5]/div[2]/textarea    robot_text_${frequency}
+    # 點擊啟用週期switch及展開icon
+    Scroll To Element    xpath=/html/body/div[14]/div/div[2]/button[4]/div[1]
+    Click With Options    xpath=/html/body/div[14]/div/div[2]/button[4]/div[1]    delay=200ms
+    Click With Options    xpath=/html/body/div[14]/div/div[2]/button[4]/div[3]    delay=200ms
+    Sleep    1s
+    Click With Options    id=enableCycle_0    delay=100ms
+    Select Options By    xpath=/html/body/div[14]/div/div[2]/div[9]/div[1]/div/div[1]/select[1]    value    ${time_start}
+    Select Options By    xpath=//html/body/div[14]/div/div[2]/div[9]/div[1]/div/div[1]/select[2]    value    ${time_end}
+    Wait For Elements State    xpath=/html/body/div[14]/div/div[3]/button[2]    enabled
+    Click With Options    xpath=/html/body/div[14]/div/div[3]/button[2]    delay=200ms

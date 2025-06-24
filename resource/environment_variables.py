@@ -31,21 +31,25 @@ ENVIRONMENTS = {
         "combobox_variables": [],
         "combobox_options": {}
     },
-    "ACER": {
-        "variables": {
-            "url": "http://192.168.11.157/",
-            "acc": "admin",
-            "pw": "P@ssw0rd",
-            "version":"",
-            "department": "自動化工具專用>組織",
-            "device_id": "13F-VRF-AC-B5-35-F",
-            "node_id":  "TempSet",
-            "trigger_timing_start": "00:00",
-            "trigger_timing_end": "00:00"
+    "ACER":{
+            "variables":{
+                "url" :"http://192.168.11.157/",
+                "acc" :"admin",
+                "pw": "P@ssw0rd",
+                "version":"",
+                "device_id": "請選擇，widget、trigger建立使用",
+                "node_id":  "TempSet",
+                "trigger_timing_start": "00:00",
+                "trigger_timing_end": "00:00"
+            },
+            "combobox_variables": ["url", "device_id", "trigger_timing_start", "trigger_timing_end"],
+            "combobox_options": {
+                "url": ["http://192.168.11.180/", "http://192.168.11.151/", "http://192.168.11.152/", "http://192.168.11.153/", "http://192.168.11.154/", "http://192.168.11.155/", "http://192.168.11.156/"],
+                "device_id": ["13F-VRF-AC-B5-35-F"],
+                "trigger_timing_start": ["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],
+                "trigger_timing_end": ["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"]
+            }
         },
-        "combobox_variables": [],
-        "combobox_options": {}
-    },
     "LA": {
         "variables": {
             "url": "http://192.168.11.88/ihouseBA/",
@@ -72,10 +76,12 @@ ENVIRONMENTS = {
             "trigger_timing_start": "00:00",
             "trigger_timing_end": "00:00"
         },
-        "combobox_variables": ["url", "device_id"],
+        "combobox_variables": ["url", "device_id", "trigger_timing_start", "trigger_timing_end"],
         "combobox_options": {
             "url": ["http://192.168.11.180/", "http://192.168.11.151/", "http://192.168.11.152/", "http://192.168.11.153/", "http://192.168.11.154/", "http://192.168.11.155/", "http://192.168.11.156/"],
-            "device_id": ["13F-VRF-AC-B5-35-F"]
+            "device_id": ["13F-VRF-AC-B5-35-F"],
+            "trigger_timing_start": ["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"],
+            "trigger_timing_end": ["00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"]
         }
     }
 }

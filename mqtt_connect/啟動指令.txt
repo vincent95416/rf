@@ -1,0 +1,28 @@
+# FastAPI 服務啟動指令
+## 先安裝python相關套件與asgi服務器(uvicorn)
+pip install -r require.txt
+
+
+## 基本啟動
+uvicorn api:app --reload
+
+## 指定 host 和 port
+uvicorn api:app --host 0.0.0.0 --port 8000 --reload
+
+## 生產環境啟動
+uvicorn api:app --host 0.0.0.0 --port 8000
+
+##Linux
+nohup python3 -m uvicorn api:app --host 0.0.0.0 --port 8000 > log.txt 2>&1 &
+
+## 參數說明
+- `api:app` - 模組名稱:FastAPI應用實例
+- `--host 0.0.0.0` - 允許外部訪問（預設只有 127.0.0.1）
+- `--port 8000` - 指定端口（預設 8000）
+- `--reload` - 開發模式，檔案變更時自動重載
+
+## 訪問方式
+- API 文檔：http://localhost:8000/docs
+- 另一個文檔：http://localhost:8000/redoc
+- API 根路徑：http://localhost:8000
+

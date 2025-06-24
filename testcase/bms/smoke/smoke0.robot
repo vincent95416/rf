@@ -12,10 +12,11 @@ Suite Setup    Basic Browser
     Wait For Load State    load    30
     Wait For Elements State    .wrapper    visible    15s
     ${current_url}=    Get Url
-    ${key_token}    Session Storage Get Item    token
-    Log    ${key_token}
+    ${token_start}    Get Regexp Matches    ${current_url}    token=([a-zA-Z0-9]+)    1
+    ${extracted_token}    Set Variable    ${token_start}[0]
+    Log    ${extracted_token}
     Set Global Variable    ${main_url}    ${current_url}
-    Set Global Variable    ${token}    ${key_token}
+    Set Global Variable    ${token}    ${extracted_token}
 
 #api檢測
 #    [Documentation]    帳號操作、

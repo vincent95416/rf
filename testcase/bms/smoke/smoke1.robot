@@ -60,7 +60,7 @@ Suite Setup    Continues Page
     ${expected_temp}    Evaluate    int(${now_temp}) + 1
     Set Global Variable    ${set_temp}    ${expected_temp}
 
-widget告警trigger、setvalue
+widget告警trigger、set value
     [Documentation]    延續冷氣widget，編輯為儀表板驗證setValue後的event-pop trigger
     Wait For Elements State    id=next_page_url >>> .widget-body    visible
     Click With Options    id=next_page_url >>> .main-title.zh-TW    clickCount=2    delay=100ms    force=True
@@ -87,19 +87,19 @@ widget告警trigger、setvalue
     ${setvalue_response}    GET    url=${url}setValue?token=${token}&devid=${device_id}&node=TempSet&val=${set_temp}    headers=&{headers}    expected_status=200
     Assert Result 0    ${setvalue_response}
     Wait For Elements State    id=event_block    visible    60s
-    Wait For Elements State    id=eventPop_iframe >>> id=all_info_count    stable
+    Wait For Elements State    id=eventPop_iframe >>> id=triggerCount    stable
     Sleep    3s
     #檢查告警內容是否包含預期文字,否則點下一頁找尋,最多十次
     ${alarm_page}    Set Variable    0
     FOR    ${index}    IN RANGE    10
-        ${alarm_msg}    Get Text    id=eventPop_iframe >>> id=event_alarm_msg
+        ${alarm_msg}    Get Text    id=eventPop_iframe >>> id=triggerMsg
         ${result}    Run Keyword And Ignore Error    Should Contain    ${alarm_msg}    惡性罷免
         Run Keyword If    '${result[0]}' == 'PASS'    Exit For Loop
-        Run Keyword If    '${result[0]}' == 'FAIL'    Click    id=eventPop_iframe >>> .icon.icon-event-pop-after.icon-28
+        Run Keyword If    '${result[0]}' == 'FAIL'    Click    id=eventPop_iframe >>> span[onclick="switch_alarm_item('next')"]
         Run Keyword If    '${result[0]}' == 'FAIL'    Sleep    1s
         Run Keyword If    '${result[0]}' == 'FAIL'    Set Variable    ${alarm_page}    ${alarm_page} + 1
     END
-    Click With Options    id=eventPop_iframe >>> .icon.icon-minus-fill-gray.icon-40    delay=200ms
+    Click With Options    id=eventPop_iframe >>> css=span.material-symbols-outlined:text("remove")    delay=200ms
     Wait For Elements State    id=eventPop_iframe >>> id=event-pop-body    hidden
     Click With Options    id=next_page_url >>> button[onclick="widgetEdit(event)"]    delay=200ms
     Wait For Elements State    id=next_page_url >>> .widget-menu.list-group.d-block    visible

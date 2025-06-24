@@ -1,6 +1,6 @@
 *** Settings ***
 Resource    ./task.robot
-Suite Setup    Continuous Page
+Suite Setup    Continues Page
 
 *** Variables ***
 &{headers}    Content-Type=application/json    Authorization=${token}    Accept=application/json    User-Agent=RobotFramework    Connection=keep-alive
@@ -18,13 +18,13 @@ Suite Setup    Continuous Page
     Fill Text    id=name    robotvdev
     Click With Options    id=organize    delay=200ms
     Wait For Elements State     .dropdown-menu.show    visible
-    Click With Options    button[onclick="setDropdownItem(event, 'departments_list', '自動化工具專用>組織')"]    delay=300ms
-    Get Text    id=organize    ==    自動化工具專用>組織
+    Click With Options    button[onclick="setDropdownItem(event, 'departments_list', 'A組織')"]    delay=300ms
+    Get Text    id=organize    ==    A組織
     Click With Options    button[onclick="showDeviceListModal('binding')"]    delay=200ms
     Sleep    1s
     # 被::before擋住，只能用下下策的js語法來操作checkbox
-    Evaluate JavaScript    ${None}    document.getElementById('device_6').checked = true
-    Evaluate JavaScript    ${None}    document.getElementById('device_7').checked = true
+    Evaluate JavaScript    ${None}    document.querySelector("[value='dv_002']").checked = true
+    Evaluate JavaScript    ${None}    document.querySelector("[value='dv_003']").checked = true
     ...    verifyDeviceListModalSubmit()
     Click With Options    id=deviceList_submit    delay=100ms
     Wait For Elements State    id=basicOffcanvas_submit    enabled
@@ -52,7 +52,7 @@ Suite Setup    Continuous Page
 #    ${del_response}    DELETE    url=http://192.168.11.26/api/Device/delDevNode    headers=&{headers}    json=${del_payload}
 #    Assert Result 0    ${del_response}
     # 編輯、刪除表單第一項
-    Get Text    id=next_page_url >>> xpath=/html/body/main/div[2]/div[2]/div/div[2]/div[1]/div[5]    ==    虛擬 ${device_id_virtual}
+    Get Attribute    id=next_page_url >>> xpath=/html/body/main/div[2]/div[2]/div/div[2]/div[1]/div[4]    title    ==    robotvdev
     Click With Options    id=next_page_url >>> xpath=/html/body/main/div[2]/div[2]/div/div[2]/div[1]/div[9]/button[2]    delay=100ms
     Sleep    1s
     Get Text    id=deleteConfirmModal_item    ==    robotvdev
@@ -145,43 +145,44 @@ Suite Setup    Continuous Page
     ${del_response}    DELETE    url=${url}api/Trigger/del?triggerid=${trigger_id}    headers=&{headers}    expected_status=200
     Assert Result 0    ${del_response}
 
-#多條件告警
-#    [Documentation]    建立一筆新多條件trigger後用送api刪除(因頁面列表無法準確指向，故只能打api)
-#    Reload
-#    Wait For Element And Click It    id=device_management
-#    Wait For Elements State    id=next_page_url >>> css=body    visible
-#    Click With Options    id=next_page_url >>> p[data-i18n='system.tag.trigger']    delay=100ms
-#    Click With Options    id=next_page_url >>> id=add-item-btn    delay=100ms
-#    Wait For Elements State    .offcanvas.offcanvas-s.show    visible
-#    Fill Text    input[placeholder='請輸入名稱']    robot_multi-trigger
-#    Select Options By    xpath=/html/body/div[14]/div/div[2]/div[3]/div/select    value    0
-#    Select Options By    .form-control.border-radius-top    value    Do_123
-#    Select Options By    .form-control.border-radius-bottom    value    Do_04
-#    Select Options By    xpath=/html/body/div[14]/div/div[2]/div[3]/div[2]/div/div[4]/select    value    0
-#    Wait For Elements State    xpath=/html/body/div[14]/div/div[3]/button[2]    enabled
-#    Click With Options    xpath=/html/body/div[14]/div/div[3]/button[2]    delay=200ms
-#    Sleep    1s
-#    ${trigger_response}    GET    url=${url}api/Trigger/list?groupId=00000000-0000-0000-0000-000000000000&status=-1    headers=&{headers}    expected_status=200
-#    Assert Result 0    ${trigger_response}
-#    ${trigger_list}    Set Variable    ${trigger_response.json()}[data]
-#    ${trigger_id}    Set Variable    ${None}
-#    FOR    ${trigger}    IN    @{trigger_list}
-#        ${current_name}    Set Variable    ${trigger}[name]
-#        ${current_id}    Set Variable    ${trigger}[triggerid]
-#        # 檢查name
-#        IF    '${current_name}' == 'robot_multi-trigger'
-#            ${trigger_id}    Set Variable    ${current_id}
-#            Exit For Loop
-#        END
-#    END
-#    # 印出id到log
-#    Run Keyword If    '${trigger_id}' != '${None}'
-#    ...    Log    已找到新建立的多條件id : ${trigger_id}
-#    # 開關觸發、刪除
-#    ${set_response}    POST    url=${url}api/Trigger/setEnable?triggerid=${trigger_id}&enable=0    headers=&{headers}    expected_status=200
-#    Assert Result 0    ${set_response}
-#    ${del_response}    DELETE    url=${url}api/Trigger/del?triggerid=${trigger_id}    headers=&{headers}    expected_status=200
-#    Assert Result 0    ${del_response}
+多條件告警
+    [Documentation]    建立一筆新多條件trigger後用送api刪除(因頁面列表無法準確指向，故只能打api)
+    Reload
+    Wait For Element And Click It    id=device_management
+    Wait For Elements State    id=next_page_url >>> css=body    visible
+    Click With Options    id=next_page_url >>> p[data-i18n='system.tag.trigger']    delay=100ms
+    Click With Options    id=next_page_url >>> id=add-item-btn    delay=100ms
+    Wait For Elements State    .offcanvas.offcanvas-s.show    visible
+    Fill Text    input[placeholder='請輸入名稱']    robot_multi-trigger
+    Select Options By    xpath=/html/body/div[14]/div/div[2]/div[3]/div/select    value    0
+    Select Options By    .form-control.border-radius-top    value    Do_123
+    Select Options By    .form-control.border-radius-bottom    value    Do_04
+    Select Options By    xpath=/html/body/div[14]/div/div[2]/div[3]/div[2]/div/div[4]/select    value    0
+    Fill Text    xpath=/html/body/div[14]/div/div[2]/div[5]/div[2]/textarea    robot_textarea
+    Wait For Elements State    xpath=/html/body/div[14]/div/div[3]/button[2]    enabled
+    Click With Options    xpath=/html/body/div[14]/div/div[3]/button[2]    delay=200ms
+    Sleep    1s
+    ${trigger_response}    GET    url=${url}api/Trigger/list?groupId=00000000-0000-0000-0000-000000000000&status=-1    headers=&{headers}    expected_status=200
+    Assert Result 0    ${trigger_response}
+    ${trigger_list}    Set Variable    ${trigger_response.json()}[data]
+    ${trigger_id}    Set Variable    ${None}
+    FOR    ${trigger}    IN    @{trigger_list}
+        ${current_name}    Set Variable    ${trigger}[name]
+        ${current_id}    Set Variable    ${trigger}[triggerid]
+        # 檢查name
+        IF    '${current_name}' == 'robot_multi-trigger'
+            ${trigger_id}    Set Variable    ${current_id}
+            Exit For Loop
+        END
+    END
+    # 印出id到log
+    Run Keyword If    '${trigger_id}' != '${None}'
+    ...    Log    已找到新建立的多條件id : ${trigger_id}
+    # 開關觸發、刪除
+    ${set_response}    POST    url=${url}api/Trigger/setEnable?triggerid=${trigger_id}&enable=0    headers=&{headers}    expected_status=200
+    Assert Result 0    ${set_response}
+    ${del_response}    DELETE    url=${url}api/Trigger/del?triggerid=${trigger_id}    headers=&{headers}    expected_status=200
+    Assert Result 0    ${del_response}
 
 需量管理
     [Documentation]    建立一筆需量後用送api刪除(因頁面列表無法準確指向，故只能打api)

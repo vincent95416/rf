@@ -23,8 +23,8 @@ Suite Setup    Continues Page
     Click With Options    button[onclick="showDeviceListModal('binding')"]    delay=200ms
     Sleep    1s
     # 被::before擋住，只能用下下策的js語法來操作checkbox
-    Evaluate JavaScript    ${None}    document.getElementById('device_6').checked = true
-    Evaluate JavaScript    ${None}    document.getElementById('device_7').checked = true
+    Evaluate JavaScript    ${None}    document.querySelector("[value='dv_002']").checked = true
+    Evaluate JavaScript    ${None}    document.querySelector("[value='dv_003']").checked = true
     ...    verifyDeviceListModalSubmit()
     Click With Options    id=deviceList_submit    delay=100ms
     Wait For Elements State    id=basicOffcanvas_submit    enabled
@@ -52,7 +52,7 @@ Suite Setup    Continues Page
 #    ${del_response}    DELETE    url=http://192.168.11.26/api/Device/delDevNode    headers=&{headers}    json=${del_payload}
 #    Assert Result 0    ${del_response}
     # 編輯、刪除表單第一項
-    Get Text    id=next_page_url >>> xpath=/html/body/main/div[2]/div[2]/div/div[2]/div[1]/div[5]    ==    虛擬 ${device_id_virtual}
+    Get Attribute    id=next_page_url >>> xpath=/html/body/main/div[2]/div[2]/div/div[2]/div[1]/div[4]    title    ==    robotvdev
     Click With Options    id=next_page_url >>> xpath=/html/body/main/div[2]/div[2]/div/div[2]/div[1]/div[9]/button[2]    delay=100ms
     Sleep    1s
     Get Text    id=deleteConfirmModal_item    ==    robotvdev
@@ -158,6 +158,7 @@ Suite Setup    Continues Page
     Select Options By    .form-control.border-radius-top    value    Do_123
     Select Options By    .form-control.border-radius-bottom    value    Do_04
     Select Options By    xpath=/html/body/div[14]/div/div[2]/div[3]/div[2]/div/div[4]/select    value    0
+    Fill Text    xpath=/html/body/div[14]/div/div[2]/div[5]/div[2]/textarea    robot_textarea
     Wait For Elements State    xpath=/html/body/div[14]/div/div[3]/button[2]    enabled
     Click With Options    xpath=/html/body/div[14]/div/div[3]/button[2]    delay=200ms
     Sleep    1s
