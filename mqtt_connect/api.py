@@ -14,12 +14,6 @@ active_mqtt_simulators = {}
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-class DeviceConfig(BaseModel):
-    id: str = Field(..., min_length=1, description="裝置ID")
-    status: int = Field(1, description="裝置狀態")
-    seconds: int = Field(60, gt=0, description="發送間隔(秒), 預設 60 秒")
-    formula: FormulaConfig = Field(default_factory=FormulaConfig, description='數值公式')
-
 class FormulaParameter(BaseModel):
     """公式參數"""
     base: float = Field(..., description="基準值")
@@ -84,6 +78,9 @@ class MqttTrigger(BaseModel):
     topic: str = Field('com/cwo/general_gw001/report/', description="要發送消息的 MQTT Topic")
     broker_port: int = Field(1884, gt=0, description="MQTT broker 的端口")
     device_id: List[str] = Field(['d1', 'd2', 'd3'], min_length=1, description="要發送消息的裝置 ID 列表")
+    status: int = Field(1, description="裝置狀態 (預設為 1)")
+    seconds: int = Field(60, gt=0, description="發送間隔(秒), 預設 60 秒")
+    formula: FormulaConfig = Field(default_factory=FormulaConfig, description='數值公式')
 
 app = FastAPI(title="MQTT Trigger API", version="1.0",
               description="""
