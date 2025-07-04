@@ -46,22 +46,53 @@ Open Test Application
         Click Element    accessibility_id=我知道了
     END
     Wait Until Element Is Visible    accessibility_id=${title}
+    ${headers}    Create Dictionary    Content_Type=application/json
+    ${payload}    Create Dictionary    acc=${username}    pwd=${password}
+    ${login_response}    POST    url=${url}/kbro_home/v1/account/login    headers=${headers}    json=${payload}    expected_status=200    verify=${False}
+    ${data}    Set Variable    ${login_response.json()}[data]
+    ${token}    Set Variable    ${data}[token]
+    ${token}    Set Global Variable    ${token}
 
 即時影像
     Wait Until Element Is Visible    android = new UiSelector().className("android.widget.HorizontalScrollView")
-    Click Element    android = new UiSelector().className("android.view.View").instance(11)
+    # 頁面滑動找攝影機，7/3暫不以此檢查
+#    Click Element    android = new UiSelector().className("android.view.View").instance(11)
+#    ${x1}=    Evaluate    ${Width} * 0.75
+#    ${x2}=    Evaluate    ${Width} * 0.25
+#    ${y1}=    Evaluate    ${Height} * 0.25
+#    FOR    ${index}    IN RANGE    10
+#        ${result}=    Run Keyword And Ignore Error    Page Should Contain Element    accessibility_id=${cam_skywatch}
+#        Run Keyword If    '${result[0]}' == 'PASS'    Exit For Loop
+#        Run Keyword If    '${result[0]}' == 'FAIL'    Swipe    ${x1}    ${y1}    ${x2}    ${y1}    500
+#        Run Keyword If    '${result[0]}' == 'FAIL'    Sleep    1s
+#    END
+#    Click Element    android = new UiSelector().className("android.widget.Button").instance(1)
+    ${headers}    Create Dictionary    Authorization=${token}    Content_Type=application/json
+    ${device_list_response}    GET    url=${url}/kbro_home/v1/device/list/5702c9a8-df52-4fa6-a0f8-4ab010409e06    headers=${headers}    expected_status=200    verify=${False}
+    ${data}    Set Variable    ${device_list_response.json()}[data]
+    ${found_device_and_rtsp}    Set Variable    ${False}
+    FOR    ${device}    IN    @{data}
+        ${current_dev_id}    Get From Dictionary    ${device}    devId
+        IF    '${current_dev_id}' == '${cam_nvr}'
+            # 獲取 attrs 字典
+            ${attrs}=    Get From Dictionary    ${device}    attrs
 
-    ${x1}=    Evaluate    ${Width} * 0.75
-    ${x2}=    Evaluate    ${Width} * 0.25
-    ${y1}=    Evaluate    ${Height} * 0.25
-
-    FOR    ${index}    IN RANGE    10
-        ${result}=    Run Keyword And Ignore Error    Page Should Contain Element    accessibility_id=${cam_skywatch}
-        Run Keyword If    '${result[0]}' == 'PASS'    Exit For Loop
-        Run Keyword If    '${result[0]}' == 'FAIL'    Swipe    ${x1}    ${y1}    ${x2}    ${y1}    500
-        Run Keyword If    '${result[0]}' == 'FAIL'    Sleep    1s
+            # 檢查 attrs 中是否包含 rtsp
+            ${has_rtsp}=    Run Keyword And Return Status    Dictionary Should Contain Key    ${attrs}    rtsp
+            IF    ${has_rtsp}
+                ${rtsp_url}    Get From Dictionary    ${attrs}    rtsp
+                Log To Console    RTSP URL for ${current_dev_id}: ${rtsp_url}
+                Should Not Be Empty    ${rtsp_url}    msg=RTSP URL for ${current_dev_id} is empty.
+                ${found_device_and_rtsp}    Set Variable    ${True}
+                Log To Console    Found target device with RTSP: ${current_dev_id}
+                BREAK
+            ELSE
+                Log To Console    Device ${current_dev_id} found, but no 'rtsp' key in its 'attrs'.
+                Fail    'rtsp' key is missing.
+            END
+        END
     END
-    Click Element    android = new UiSelector().className("android.widget.Button").instance(1)
+    Should Be True    ${found_device_and_rtsp}    msg='${cam_nvr}' not found in response
 
 AI監控告警
     Wait Until Element Is Visible    accessibility_id=排程設定
@@ -91,6 +122,7 @@ AI監控告警
     Click Element    android=new UiSelector().className("android.widget.ImageView").instance(2)
     Click Element    android=new UiSelector().className("android.widget.ImageView").instance(1)
     Wait Until Element Is Visible    accessibility_id=開關執行中，請留意，APP影像畫面可能延遲 1-2 秒，請先確認捲門下方無人，確保安全後再操作，以免意外發生。    10s
+    Wait Until Page Does Not Contain Element    accessibility_id=開關執行中，請留意，APP影像畫面可能延遲 1-2 秒，請先確認捲門下方無人，確保安全後再操作，以免意外發生。
     Click Element    class=android.widget.Button
     Wait Until Page Does Not Contain Element    accessibility_id=紗罩
 

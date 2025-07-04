@@ -11,10 +11,10 @@ INSTALL_TIME = 60000
 ENVIRONMENTS = {
     "stage": {
         "variables":{
+            "url": "https://ss-stage.digihome.com.tw",
             "username": "0984123725",
             "password": "password",
             "title": "stage橘子居家",
-            "cam_skywatch": "測8C:51:09:D1:02:C4",
             "cam_nvr": "ALSTI5KL23370661",
             "c1_name": "奧創智慧開關testben",
             "version": "v",
@@ -29,10 +29,10 @@ ENVIRONMENTS = {
     },
     "production": {
         "variables": {
+            "url" : "https://homepronew.digihome.com.tw",
             "username": "0984123725",
             "password": "password",
             "title": "prod橘子居家",
-            "cam_skywatch": "測8C:51:09:D1:05:6A",
             "cam_nvr": "ALSTI5KL23370526",
             "c1_name": "prod奧創智慧開關C1",
             "version": "v",

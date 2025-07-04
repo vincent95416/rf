@@ -63,3 +63,8 @@ From Element Get Version
     ${element_text}    Get Element Attribute    ${locator}    ${attribute}
     ${version_text}    Split String    ${element_text}    \n
     ${version_with_v}    Set Variable    ${version_text}[1]
+
+Assert Result 0
+    [Arguments]    ${response}
+    ${result_code}    Set Variable    ${response.json()}[result]
+    Should Be Equal As Integers    ${result_code}    S0000

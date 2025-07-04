@@ -60,8 +60,12 @@ Suite Setup    Continues Page
     Sleep    1s
     ${download_1}=    Download    id=next_page_url >>> a[onclick='exportExcel()']
     Wait Until Keyword Succeeds    15s    3s    Should Be Equal    ${download_1.state}    finished
-    # 歷史資料下載
     Click With Options    id=next_page_url >>> id=sava_report_btn    delay=100ms
+    # 刪除
+    Click With Options    id=next_page_url >>> div[onclick="addReport('${report_id}' )"] >> .edit-widget-btn    force=True    delay=100ms
+    Click With Options    id=next_page_url >>> p[onclick="show_del_report_modal(event, '${report_id}', 'robot_repo' )"]    force=True    delay=100ms
+    Click With Options    button[onclick="delete_confirm_submit('undefined')"]
+    # 歷史資料下載
     Wait For Elements State    id=next_page_url >>> .report-list-body    visible
     Click With Options    id=next_page_url >>> p[data-i18n='report.button.history']    delay=100ms
     Wait For Elements State    id=raw_iframe    visible
@@ -70,7 +74,3 @@ Suite Setup    Continues Page
     Wait Until Keyword Succeeds    15s    3s    Should Be Equal    ${download_2.state}    finished
     Click With Options    id=raw_iframe >>> input[onclick="close_repair_info()"]    delay=500ms    force=True
     Wait For Elements State    id=raw_data_block    hidden
-    # 刪除
-    Click With Options    id=next_page_url >>> css=[onclick="addReport('${report_id}' )"] > button[onclick="edit-widget-btn"]    force=True    delay=100ms
-    Click With Options    id=next_page_url >>> p[onclick="show_del_report_modal(event, '${report_id}', 'robot_repo' )"]    force=True    delay=100ms
-    Click With Options    button[onclick="delete_confirm_submit('undefined')"]

@@ -22,6 +22,7 @@ Suite Setup    Continues Page
     Get Text    id=organize    ==    A組織
     Click With Options    button[onclick="showDeviceListModal('binding')"]    delay=200ms
     Sleep    1s
+    Scroll To Element    css=p.name:text("dv_003")
     # 被::before擋住，只能用下下策的js語法來操作checkbox
     Evaluate JavaScript    ${None}    document.querySelector("[value='dv_002']").checked = true
     Evaluate JavaScript    ${None}    document.querySelector("[value='dv_003']").checked = true

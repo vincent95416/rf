@@ -1,8 +1,9 @@
+import json
 import os.path
 import sys
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Optional, Dict, Any
 import subprocess
 import logging
 import asyncio
@@ -12,6 +13,70 @@ active_mqtt_simulators = {}
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+class DeviceConfig(BaseModel):
+    id: str = Field(..., min_length=1, description="裝置ID")
+    status: int = Field(1, description="裝置狀態")
+    seconds: int = Field(60, gt=0, description="發送間隔(秒), 預設 60 秒")
+    formula: FormulaConfig = Field(default_factory=FormulaConfig, description='數值公式')
+
+class FormulaParameter(BaseModel):
+    """公式參數"""
+    base: float = Field(..., description="基準值")
+    range: float = Field(..., ge=0, description="隨機值的倍數，會加到Base數值之上")
+
+class FormulaConfig(BaseModel):
+    """公式配置"""
+    # 基礎電力參數 - 全部設為可選，預設 None
+    kwh: Optional[FormulaParameter] = Field(
+        default=None,
+        description="電度累加增量"
+    )
+    freq: Optional[FormulaParameter] = Field(
+        default=None,
+        description="頻率 (Hz)"
+    )
+    iA: Optional[FormulaParameter] = Field(
+        default=None,
+        description="A相電流 (A)"
+    )
+    iB: Optional[FormulaParameter] = Field(
+        default=None,
+        description="B相電流 (A)"
+    )
+    iC: Optional[FormulaParameter] = Field(
+        default=None,
+        description="C相電流 (A)"
+    )
+    PFTotal: Optional[FormulaParameter] = Field(
+        default=None,
+        description="總功率因數"
+    )
+    vlnA: Optional[FormulaParameter] = Field(
+        default=None,
+        description="A相線電壓 (V)"
+    )
+    vlnB: Optional[FormulaParameter] = Field(
+        default=None,
+        description="B相線電壓 (V)"
+    )
+    vlnC: Optional[FormulaParameter] = Field(
+        default=None,
+        description="C相線電壓 (V)"
+    )
+    vllAB: Optional[FormulaParameter] = Field(
+        default=None,
+        description="AB線間電壓 (V)"
+    )
+    vllBC: Optional[FormulaParameter] = Field(
+        default=None,
+        description="BC線間電壓 (V)"
+    )
+    vllCA: Optional[FormulaParameter] = Field(
+        default=None,
+        description="CA線間電壓 (V)"
+    )
+
 # 定義 API 請求體資料的模型 (接收 address, device_id)
 class MqttTrigger(BaseModel):
     """模擬器觸發的請求資料模型"""
@@ -19,9 +84,6 @@ class MqttTrigger(BaseModel):
     topic: str = Field('com/cwo/general_gw001/report/', description="要發送消息的 MQTT Topic")
     broker_port: int = Field(1884, gt=0, description="MQTT broker 的端口")
     device_id: List[str] = Field(['d1', 'd2', 'd3'], min_length=1, description="要發送消息的裝置 ID 列表")
-    value: int = Field(0, ge=0, description="要發送的起始數值")
-    status: int = Field(1, description="裝置狀態 (預設為 1)")
-    seconds: int = Field(60, gt=0, description="發送間隔(秒), 預設 60 秒")
 
 app = FastAPI(title="MQTT Trigger API", version="1.0",
               description="""
@@ -60,6 +122,7 @@ async def trigger_message(trigger_data: MqttTrigger):
         raise HTTPException(status_code=500, detail="服務錯誤，找不到檔案，請確認檔案是否存在目錄")
     try:
         device_ids_str = ",".join(trigger_data.device_id)
+        formula_json = json.dumps(trigger_data.formula.model_dump(exclude_none=True))
 
         cmd = [
             py_path,
@@ -68,8 +131,8 @@ async def trigger_message(trigger_data: MqttTrigger):
             "--broker-port", str(trigger_data.broker_port),
             "--topic", trigger_data.topic,
             "--device-id", device_ids_str,  # 使用傳入的string(已用,分割deviceid的list)
-            "--initial-value", str(trigger_data.value),
-            "--interval", str(trigger_data.seconds)
+            "--interval", str(trigger_data.seconds),
+            "--formula", formula_json
         ]
 
         logger.info(f"Executing command: {' '.join(cmd)}")
@@ -100,7 +163,6 @@ async def trigger_message(trigger_data: MqttTrigger):
             "broker": f"{trigger_data.broker_address}:{trigger_data.broker_port}",
             "topic": f"{trigger_data.topic}",
             "device_id": trigger_data.device_id,
-            "value": trigger_data.value,
             "status": trigger_data.status,
             "pid": process.pid
         }

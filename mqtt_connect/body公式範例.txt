@@ -1,0 +1,50 @@
+"formula": {
+    "kwh": {
+      "base": 0,
+      "range": 1
+    },
+    "freq": {
+      "base": 58,
+      "range": 2
+    },
+    "iA": {
+      "base": 10,
+      "range": 5
+    },
+    "iB": {
+      "base": 10,
+      "range": 5
+    },
+    "iC": {
+      "base": 10,
+      "range": 5
+    },
+    "PFTotal": {
+      "base": 0.9,
+      "range": 0.1
+    },
+    "vlnA": {
+      "base": 110,
+      "range": 5
+    },
+    "vlnB": {
+      "base": 110,
+      "range": 5
+    },
+    "vlnC": {
+      "base": 110,
+      "range": 5
+    },
+    "vllAB": {
+      "base": 220,
+      "range": 5
+    },
+    "vllBC": {
+      "base": 220,
+      "range": 5
+    },
+    "vllCA": {
+      "base": 220,
+      "range": 5
+    }
+  }
