@@ -76,7 +76,7 @@ Apply Trigger Single Mode
     Select Options By    id=automated_automated_control_di_node_value    value    0
     # 點擊啟用週期switch及展開icon
     Click With Options    id=schedule_switch    delay=200ms
-    Click With Options    xpath=/html/body/div[21]/div[2]/div[12]/div[2]    delay=200ms
+    Click With Options    xpath=/html/body/div[22]/div[2]/div[12]/div[2]    delay=200ms
     Sleep    1s
     Get Attribute    id=wf_automated_control    class    ==    collapse show
     Click With Options    id=automated_schedule_schedule_0    delay=100ms
@@ -103,7 +103,7 @@ Apply Trigger Any And All Mode
     Select Options By    id=automated_automated_control_di_node_value    value    0
     # 點擊啟用週期switch及展開icon
     Click With Options    id=schedule_switch    delay=200ms
-    Click With Options    xpath=/html/body/div[21]/div[2]/div[12]/div[2]    delay=200ms
+    Click With Options    xpath=/html/body/div[22]/div[2]/div[12]/div[2]    delay=200ms
     Sleep    1s
     Get Attribute    id=wf_automated_control    class    ==    collapse show
     Click With Options    id=automated_schedule_schedule_0    delay=100ms

@@ -1,0 +1,96 @@
+{
+	"info": {
+		"_postman_id": "8113a139-5253-46f4-9447-3d318e186403",
+		"name": "MQTT_simulator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38318576",
+		"_collection_link": "https://whatisbms.postman.co/workspace/BMS_Q~1bd137c5-1fd7-4013-9661-999f3cdfb1e6/collection/38318576-8113a139-5253-46f4-9447-3d318e186403?action=share&source=collection_link&creator=38318576"
+	},
+	"item": [
+		{
+			"name": "執行電錶模擬器",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"broker_address\": \"192.168.11.180\",\r\n  \"topic\": \"com/cwo/general_gw001/report/\",\r\n  \"broker_port\": 1884,\r\n  \"device_id\": [\r\n    \"dev_999\"\r\n  ],\r\n  \"value\": 0,\r\n  \"status\": 1,\r\n  \"seconds\": 60,\r\n  \"formula\": {\r\n    \"kwh\": {\r\n      \"base\": 0,\r\n      \"range\": 1\r\n    },\r\n    \"freq\": {\r\n      \"base\": 58,\r\n      \"range\": 2\r\n    },\r\n    \"iA\": {\r\n      \"base\": 10,\r\n      \"range\": 5\r\n    },\r\n    \"iB\": {\r\n      \"base\": 10,\r\n      \"range\": 5\r\n    },\r\n    \"iC\": {\r\n      \"base\": 10,\r\n      \"range\": 5\r\n    },\r\n    \"PFTotal\": {\r\n      \"base\": 0.9,\r\n      \"range\": 0.1\r\n    },\r\n    \"vlnA\": {\r\n      \"base\": 110,\r\n      \"range\": 5\r\n    },\r\n    \"vlnB\": {\r\n      \"base\": 110,\r\n      \"range\": 5\r\n    },\r\n    \"vlnC\": {\r\n      \"base\": 110,\r\n      \"range\": 5\r\n    },\r\n    \"vllAB\": {\r\n      \"base\": 220,\r\n      \"range\": 5\r\n    },\r\n    \"vllBC\": {\r\n      \"base\": 220,\r\n      \"range\": 5\r\n    },\r\n    \"vllCA\": {\r\n      \"base\": 220,\r\n      \"range\": 5\r\n    }\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/trigger-mqtt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"trigger-mqtt"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查詢執行列表",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/simulators-list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"simulators-list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "關閉電表",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/stop-simulator/:pid",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"stop-simulator",
+						":pid"
+					],
+					"variable": [
+						{
+							"key": "pid",
+							"value": "14144"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,9 +1,0 @@
-# MQTT 模擬器專案依賴套件
-
-# FastAPI 相關
-fastapi
-uvicorn[standard]
-pydantic
-
-# MQTT 客戶端
-paho-mqtt
