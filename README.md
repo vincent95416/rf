@@ -10,7 +10,7 @@
 
 
 
-* **行動應用自動化測試:**  同為robotframed框架，Appium library進行行動裝置應用測試。
+* **行動應用自動化測試:**  同為robotframework框架，Appium library進行行動裝置應用測試。
 
 
 
